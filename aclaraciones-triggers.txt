@@ -1,0 +1,29 @@
+En DER.graphml:
+
+En la tabla RESERVA deberían estar todas las reservas históricas que se concretaron o las que están por concretarse. Las no concretadas se borran. Para saber si se concretó o todavía no hay que ver la fecha del viaje.
+
+VIAJE es 1 viaje particular para varias personas en 1 avión entre origen y destino, con o sin escalas.
+
+VUELO es un vuelo frecuente, que puede o no tener escalas. VIAJE es entonces una instancia de VUELO, pero cada combinación es un viaje diferente. 
+
+Ejemplo:  
+	El VUELO 123 va de A a B a C todos los miercoles a las 15.
+	El VIAJE 10000 es de A a B directo el miercoles 17 de abril a las 15, usando el vuelo 123.
+	El VIAJE 10001 es de A a C con escala en B, usando el mismo vuelo el mismo día.
+	El VIAJE 10002 es de B a C directo con el mismo vuelo en la misma fecha.
+
+No se si hay que ponerlo en algún lado o no, pero cuando un pasajero hace una reserva para un viaje de A a C pasando por B, se debería restar uno a la cantidad de asientos disponibles en 3 viajes: el de A a C, el de A a B y el de B a C.
+
+Atributos confusos: no es lo más importante pero hay atributos que no sé si hay que refinar más, como dirección, y preferencias en CUENTA, caducidad en RESERVA (que no sé qué es), información de transporte en AEROPUERTO y forma_de_pago en RESERVA (debería TARJETA heredar de una entidad forma de pago ?).
+
+Para los que hay que hacer en SQL:
+
+1 - Primero para encontrar todos los países en los que se trabaja: de todos los países quedarse con los que tengan algun aeropuerto que tenga algun vuelo como "pasa_por". Después buscar entre las cuentas aquellos que tengan al menos una reserva concretada (fch_hra_partida en el pasado) con viaje con destino a cada uno de los países. No estoy seguro como se hace eso último.
+
+2 - Por cada período año/mes en el rango indicado y por cada aeropuerto, la cantidad de gente que salió es la cantidad de reservas en ese período con viaje con origen = dicho aeropuerto. Idem para la gente que entra.
+
+3 - Para cada reserva, obtener todas las reservas del mismo usuario que tengan viaje con fch_hra_partida entre la fch_hra_partida y fch_hra_llegada del viaje de la reserva. Si hay en total una sola, está OK. Si hay dos y falta más de 7 días para la partida está OK. Si hay 2 y faltan menos de 7 días, o hay más de 2 entonces falla.
+
+4 - No estoy seguro como se activa el trigger.
+
+5 - Seguro hay un montón de restricciones adicionales para agregar, sobre todo con la redundancia entre origen/destino de viaje y pasa_por de vuelo, y con hora_despegue/aterrizaje de pasa por con fch_hra de partida y llegada de viaje.
