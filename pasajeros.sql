@@ -5,7 +5,8 @@ select nombre, apellido, nro_doc, tipo_doc from persona_reserva per where not ex
 		--tal que la persona no estuvo en un viaje con origen en ese país en los últimos 5 años
 		select * from es_para ep 
 		join reserva res on ep.codigo_reserva = res.codigo_reserva 
-		join viaje via on res.id_viaje = via.id_viaje
+		join reserva_viaje rv on rv.codigo_reserva = res.codigo_reserva
+		join viaje via on reserva_viaje.id_viaje = via.id_viaje
 		join vuelo vue on vue.numero = via.numero
 		join aeropuerto ori on vue.origen = ori.codigo_aerop
 		where 
@@ -19,7 +20,8 @@ select nombre, apellido, nro_doc, tipo_doc from persona_reserva per where not ex
 		--ni tampoco en un viaje con destino a ese país
 		select * from es_para ep 
 		join reserva res on ep.codigo_reserva = res.codigo_reserva 
-		join viaje via on res.id_viaje = via.id_viaje
+		join reserva_viaje rv on rv.codigo_reserva = res.codigo_reserva
+		join viaje via on reserva_viaje.id_viaje = via.id_viaje
 		join vuelo vue on vue.numero = via.numero
 		join aeropuerto dest on vue.destino = dest.codigo_aerop
 		where 
