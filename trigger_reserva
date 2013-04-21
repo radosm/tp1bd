@@ -1,0 +1,20 @@
+-- trigger --
+CREATE TRIGGER reserva_trigger
+AFTER INSERT ON reserva
+EXECUTE PROCEDURE cancelar();
+
+-- procedimiento --
+CREATE OR REPLACE FUNCTION cancelar() RETURNS trigger AS $$
+BEGIN
+DELETE FROM reserva r JOIN viaje v ON v.reserva_id=r.reserva_id 
+	WHERE EXISTS 
+	(SELECT * FROM reserva rr JOIN viaje vv ON vv.reserva_id=rr.reserva_id 
+		WHERE 
+		//falta calcular esto: r.precio < rr.precio
+		r.user_id = rr.user_id AND 
+		v.fecha = vv.fecha) 
+	AND	r.fecha-date(now())<7; 
+	RETURN NULL;
+END;
+$$ LANGUAGE plpgsql;
+		
