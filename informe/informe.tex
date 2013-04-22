@@ -114,7 +114,6 @@
   \item \texttt{reserva\_viaje(\underline{orden, \dotu{codigo\_reserva, numero\_vuelo, fecha\_viaje}})
   \\PK = CK = \{(orden, codigo\_reserva, numero\_vuelo, fecha\_viaje)\}
   \\FK = \{codigo\_reserva, numero\_vuelo, fecha\_viaje\}}
-  \\-----LA FK ESTÁ DIFERENTE QUE EN LA BASE!!
 
   \item \texttt{Viaje(\underline{fecha\_viaje, \dotu{numero\_vuelo}})
   \\PK = CK = \{(fecha\_viaje, numero\_vuelo)\}
@@ -127,7 +126,7 @@
   \item \texttt{cronograma(\underline{\dotu{día, numero\_vuelo}}, \dotu{codigo\_configuracion})
   \\PK = CK = \{(día, número\_vuelo)\}
   \\FK = \{día, numero\_vuelo, codigo\_configuracion\}}
-  \\-----FALTA VER COMO VAN LAS CLAVES!!
+  \\-----LA PK ESTA DIFERENTE QUE EN LA BASE!!!
 
   \item \texttt{Dia(\underline{día})
   \\PK = CK = \{día\}
@@ -136,11 +135,10 @@
   \item \texttt{Configuración(\underline{codigo\_configuración}, descripción)
   \\PK = CK = \{codigo\_configuración\}
   \\FK = \{\}}
-  \\-----CORREGIR ESTO!!
+  \\-----CORREGIR CONFIGURACION - ASIENTOS - CLASE!!
 
   \item \texttt{asientos(\underline{\dotu{codigo\_configuracion, codigo\_clase}}, cantidad)
   \\PK = CK = FK = \{(codigo\_configuracion, codigo\_clase)\}}
-  \\-----HAY QUE CORREGIR ESTO!!
 
   \item \texttt{Clase(\underline{codigo\_clase}, descripción)
   \\CK = \{codigo\_clase, descripcion\}
@@ -183,7 +181,6 @@
   \item \texttt{Telefonos\_aeropuerto(\underline{numero, \dotu{codigo\_aeropuerto}})
   \\PK = CK = \{(numero, codigo\_aeropuerto\}
   \\FK = \{codigo\_aeropuerto\}}
-  \\-----LA FK ESTÁ DIFERENTE QUE EN LA BASE!!
 
 \end{itemize}
 
