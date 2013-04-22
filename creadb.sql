@@ -1,3 +1,5 @@
+drop table tripulacion;
+drop table tripulante;
 drop table reserva_viaje;
 drop table viaje;
 drop table cronograma;
@@ -11,122 +13,108 @@ drop table telefonos_aeropuerto;
 drop table aeropuerto;
 drop table pais;
 drop table persona_reserva;
-drop table persona_cuenta;
 drop table reserva;
 drop table clase;
 drop table tarjeta;
 drop table cuenta;
 
 create table cuenta (
-  userid varchar(8),
-  nombre varchar,
-  apellido varchar,
-  clave varchar,
-  email varchar,
-  profesion varchar,
-  telefono varchar,
-  direccion text,
-  direccion_entrega text
+  userid varchar(8) not null,
+  nombre varchar not null,
+  apellido varchar not null,
+  clave varchar not null,
+  email varchar not null,
+  profesion varchar not null,
+  telefono varchar not null,
+  direccion text not null,
+  direccion_entrega text not null
 );
 
 alter table cuenta add primary key (userid);
 
 create table tarjeta (
-  numero numeric(16),
-  marca varchar, -- visa, diners, etc
-  banco_emisor varchar, -- bbva
-  vencimiento interval year to month,
-  direccion_facturacion text,
-  userid varchar(8)
+  numero numeric(16) not null,
+  marca varchar not null, -- visa, diners, etc
+  banco_emisor varchar not null, -- bbva
+  vencimiento interval year to month not null,
+  direccion_facturacion text not null,
+  userid varchar(8) not null
 );
 
 alter table tarjeta add primary key (numero);
 alter table tarjeta add foreign key (userid) references cuenta;
 
 create table clase (
-  codigo_clase char(3),
-  descripcion text
+  codigo_clase char(3) not null,
+  descripcion text not null
 );
 
 alter table clase add primary key (codigo_clase);
 
 create table reserva (
-  codigo_reserva char(8),
-  fecha date,
-  estado varchar,
-  forma_de_pago varchar,
-  userid varchar(8),
-  codigo_clase char(3)
+  codigo_reserva char(8) not null,
+  fecha date not null,
+  estado varchar not null,
+  forma_de_pago varchar not null,
+  userid varchar(8) not null,
+  codigo_clase char(3) not null
 );
 
 alter table reserva add primary key (codigo_reserva);
 alter table reserva add foreign key (userid) references cuenta;
 alter table reserva add foreign key (codigo_clase) references clase;
 
-create table persona_cuenta (
-  tipo_doc varchar(20),
-  nro_doc numeric(20),
-  nombre varchar,
-  apellido varchar,
-  fecha_nac date,
-  nacionalidad varchar,
-  userid varchar(8)
-);
-
-alter table persona_cuenta add primary key (tipo_doc,nro_doc);
-alter table persona_cuenta add foreign key (userid) references cuenta;
-
 create table persona_reserva (
-  codigo_reserva char(8),
-  tipo_doc varchar(20),
-  nro_doc numeric(20),
-  nombre varchar,
-  apellido varchar,
-  fecha_nac date,
-  nacionalidad varchar
+  codigo_reserva char(8) not null,
+  tipo_doc integer not null,
+  nro_doc numeric(20) not null,
+  nombre varchar not null,
+  apellido varchar not null,
+  fecha_nac date not null,
+  nacionalidad varchar not null
 );
 
 alter table persona_reserva add primary key (codigo_reserva,tipo_doc,nro_doc);
 alter table persona_reserva add foreign key (codigo_reserva) references reserva;
 
 create table pais (
-  codigo_pais char(2),
-  nombre varchar
+  codigo_pais char(2) not null,
+  nombre varchar not null
 );
 
 alter table pais add primary key (codigo_pais);
 
 create table aeropuerto (
-  codigo_aerop char(3),
-  nombre varchar,
-  tasa float,
-  informacion_transporte text,
-  codigo_pais char(2)
+  codigo_aerop char(3) not null,
+  nombre varchar not null,
+  tasa float not null,
+  informacion_transporte text not null,
+  codigo_pais char(2) not null
 );
 
 alter table aeropuerto add primary key (codigo_aerop);
 alter table aeropuerto add foreign key (codigo_pais) references pais;
 
 create table telefonos_aeropuerto (
-  numero varchar,
-  codigo_aerop char(3)
+  codigo_aerop char(3) not null,
+  numero varchar not null
 );
 
 alter table telefonos_aeropuerto add primary key (codigo_aerop,numero);
 
 create table modelo_avion (
-  codigo_modelo varchar,
-  descripcion text
+  codigo_modelo varchar not null,
+  descripcion text not null
 );
 
 alter table modelo_avion add primary key (codigo_modelo);
 
 create table avion (
-  codigo_avion varchar,
-  anio_fabric interval year,
-  millas integer,
-  codigo_modelo varchar,
-  codigo_pais char(2)
+  codigo_avion varchar not null,
+  anio_fabric interval year not null,
+  millas integer not null,
+  codigo_modelo varchar not null,
+  codigo_pais char(2) not null
 );
 
 alter table avion add primary key (codigo_avion);
@@ -134,21 +122,21 @@ alter table avion add foreign key (codigo_modelo) references modelo_avion;
 alter table avion add foreign key (codigo_pais) references pais;
 
 create table dia (
-  dia char(3)
+  dia char(3) not null
 );
 
 alter table dia add primary key (dia);
 
 create table configuracion (
-  codigo_config integer,
-  descripcion text
+  codigo_config integer not null,
+  descripcion text not null
 );
 
 alter table configuracion add primary key (codigo_config);
 
 create table config_modelo(
-  codigo_modelo varchar,
-  codigo_config integer
+  codigo_modelo varchar not null,
+  codigo_config integer not null
 );
 
 alter table config_modelo add primary key (codigo_modelo,codigo_config);
@@ -156,18 +144,18 @@ alter table config_modelo add foreign key (codigo_modelo) references modelo_avio
 alter table config_modelo add foreign key (codigo_config) references configuracion;
 
 create table vuelo(
-  numero_vuelo integer,
-  hora_despegue interval hour to minute,
-  duracion interval hour to minute,
-  millas integer
+  numero_vuelo integer not null,
+  hora_despegue interval hour to minute not null,
+  duracion interval hour to minute not null,
+  millas integer not null
 );
 
 alter table vuelo add primary key (numero_vuelo);
 
 create table cronograma (
-  numero_vuelo integer,
-  dia char(3),
-  codigo_config integer
+  numero_vuelo integer not null,
+  dia char(3) not null,
+  codigo_config integer not null
 );
 
 alter table cronograma add primary key (numero_vuelo,dia,codigo_config);
@@ -176,20 +164,41 @@ alter table cronograma add foreign key (dia) references dia;
 alter table cronograma add foreign key (codigo_config) references configuracion;
 
 create table viaje (
-  numero_vuelo integer,
-  fecha_viaje date
+  numero_vuelo integer not null,
+  fecha_viaje date not null
 );
 
 alter table viaje add primary key (numero_vuelo,fecha_viaje);
 alter table viaje add foreign key (numero_vuelo) references vuelo;
 
 create table reserva_viaje (
-  codigo_reserva char(8),
-  numero_vuelo integer,
-  fecha_viaje date,
-  orden integer
+  codigo_reserva char(8) not null,
+  numero_vuelo integer not null,
+  fecha_viaje date not null,
+  orden integer not null
 );
 
 alter table reserva_viaje add primary key (codigo_reserva,numero_vuelo,fecha_viaje);
 alter table reserva_viaje add foreign key (numero_vuelo) references vuelo;
+
+create table tripulante (
+  codigo_tripulante integer not null,
+  nombre varchar not null,
+  apellido varchar not null,
+  cargo varchar not null
+);
+
+alter table tripulante add primary key (codigo_tripulante);
+
+create table tripulacion (
+  numero_vuelo integer not null,
+  fecha_viaje date not null,
+  codigo_avion varchar not null,
+  codigo_tripulante integer not null
+);
+
+alter table tripulacion add primary key (numero_vuelo,fecha_viaje,codigo_avion,codigo_tripulante);
+alter table tripulacion add foreign key (numero_vuelo,fecha_viaje) references viaje;
+alter table tripulacion add foreign key (codigo_avion) references avion;
+alter table tripulacion add foreign key (codigo_tripulante) references tripulante;
 
