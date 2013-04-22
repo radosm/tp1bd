@@ -1105,7 +1105,7 @@ con<y:LabelModel>
           <y:Geometry height="45.60000000000002" width="70.18076947122654" x="534.87384747637" y="1519.2"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="51.150390625" x="9.51518942311327" y="13.815624999999955">dispone<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="54.2265625" x="7.97710348561327" y="13.815624999999955">asientos<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1124,7 +1124,7 @@ con<y:LabelModel>
           <y:Geometry height="40.0" width="67.40000000000009" x="536.3" y="1425.8713041575493"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="54.2265625" x="6.5867187500000455" y="11.015625">asientos<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="56.18359375" x="5.6082031250000455" y="11.015625">cantidad<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1390,7 +1390,7 @@ con<y:LabelModel>
           <y:Geometry height="51.30000000000007" width="96.99999999999977" x="602.3266118017556" y="1662.1683536903965"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="47.458984375" x="24.770507812499886" y="16.66562500000009">precios<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="41.20703125" x="27.896484374999886" y="16.66562500000009">precio<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -1406,7 +1406,7 @@ con<y:LabelModel>
     <node id="n73">
       <data key="d6">
         <y:GenericNode configuration="com.yworks.entityRelationship.attribute">
-          <y:Geometry height="38.80584682713334" width="59.369452954048256" x="619.3266118017556" y="1593.3625068632632"/>
+          <y:Geometry height="38.80584682713334" width="59.369452954048256" x="619.3266118017556" y="1589.1000000000001"/>
           <y:Fill color="#E8EEF7" color2="#B7C9E3" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.96875" modelName="custom" textColor="#000000" visible="true" width="35.904296875" x="11.732578039524128" y="10.418548413566668">tarifa<y:LabelModel>
