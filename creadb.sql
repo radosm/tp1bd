@@ -112,6 +112,7 @@ create table telefonos_aeropuerto (
 );
 
 alter table telefonos_aeropuerto add primary key (codigo_aerop,numero);
+alter table telefonos_aeropuerto add foreign key (codigo_aerop) references aeropuerto;
 
 create table modelo_avion (
   codigo_modelo varchar not null,
@@ -194,6 +195,8 @@ create table reserva_viaje (
 
 alter table reserva_viaje add primary key (codigo_reserva,numero_vuelo,fecha_viaje,orden);
 alter table reserva_viaje add foreign key (numero_vuelo) references vuelo;
+alter table reserva_viaje add foreign key (codigo_reserva) references reserva;
+alter table reserva_viaje add foreign key (numero_vuelo,fecha_viaje) references viaje;
 
 create table tripulante (
   codigo_tripulante integer not null,
