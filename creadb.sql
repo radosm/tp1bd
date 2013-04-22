@@ -173,7 +173,7 @@ create table cronograma (
   codigo_config integer not null
 );
 
-alter table cronograma add primary key (numero_vuelo,dia,codigo_config);
+alter table cronograma add primary key (numero_vuelo,dia);
 alter table cronograma add foreign key (numero_vuelo) references vuelo;
 alter table cronograma add foreign key (dia) references dia;
 alter table cronograma add foreign key (codigo_config) references configuracion;
@@ -214,7 +214,7 @@ create table tripulacion (
   codigo_tripulante integer not null
 );
 
-alter table tripulacion add primary key (numero_vuelo,fecha_viaje,codigo_avion,codigo_tripulante);
+alter table tripulacion add primary key (numero_vuelo,fecha_viaje,codigo_tripulante);
 alter table tripulacion add foreign key (numero_vuelo,fecha_viaje) references viaje;
 alter table tripulacion add foreign key (codigo_avion) references avion;
 alter table tripulacion add foreign key (codigo_tripulante) references tripulante;
