@@ -1,24 +1,46 @@
---SELECT
---	codigo_aerop AS "Código de Aeropuerto",
---	to_char(viaje.fecha_viaje, 'YYYY/Mon') AS "Año/Mes"
---	--COUNT(vuelo.origen) AS NumSubieron ,
---	--COUNT(vuelo.destino) AS NumBajaron
---FROM aeropuerto a, vuelo vu, viaje vi, reserva_viaje r_v, reserva r
---WHERE 
---	( vu.origen = a.codigo_aerop OR vu.destino = codigo_AND vi.numero_vuelo = vu.numero_vuelo AND r_v.numero_vuelo = viaje.id_viaje AND persona_reserva.es_para = reserva.codigo_reserva)
---GROUP BY codigo_aerop
---ORDER BY
+--
+-- La siguiente query lista todos los viajes que realizó cada persona 
+--
+
+SELECT
+	vu.aeropuerto_ori AS "Origen",
+	vu.aeropuerto_dst AS "Destino",
+	to_char(vi.fecha_viaje, 'YYYY/Mon') AS "Período",
+	pr.nombre, pr.apellido
+FROM vuelo vu, viaje vi, persona_reserva pr, reserva r, reserva_viaje rv
+WHERE (
+	vi.numero_vuelo = vu.numero_vuelo
+	AND rv.fecha_viaje = vi.fecha_viaje
+	AND rv.numero_vuelo = vi.numero_vuelo
+	AND r.codigo_reserva = rv.codigo_reserva
+	AND pr.codigo_reserva = r.codigo_reserva
+	);
 
 
-SELECT a.codigo_aerop, vu.origen, vu.destino
-FROM aeropuerto a, vuelo vu, viaje vi, reserva_viaje r_v, reserva r, persona_reserva
-WHERE 
-	( (vu.origen = a.codigo_aerop OR vu.destino = a.codigo_aerop)
-		AND vi.numero_vuelo = vu.numero_vuelo
-		AND reserva_viaje.fecha_viaje = viaje.fecha_viaje
-		AND reserva_viaje.numero_vuelo = viaje.numero_vuelo
-		AND reserva.codigo_reserva = reserva_viaje.codigo_reserva
-		AND persona_reserva.codigo_reserva = reserva.codigo_reserva
-	)
-GROUP BY codigo_aerop
-ORDER BY
+
+-- 
+-- Primer intento:
+-- 		Lista aeropuerto de origen (cod)  y cantidad de personas que subieron ó que bajaron (solo una columna)
+--		Distingue período de tiempo
+--		Ordena por cantidad que subieron (ó bajaron)
+--
+ 
+
+SELECT a.codigo_aerop, "Período" , count("Origen") AS "Subieron"
+FROM  aeropuerto a,
+(SELECT
+vu.aeropuerto_ori AS "Origen",
+vu.aeropuerto_dst AS "Destino",
+to_char(vi.fecha_viaje, 'YYYY/Mon') AS "Período"
+FROM vuelo vu, viaje vi, persona_reserva pr, reserva r, reserva_viaje rv
+WHERE (
+vi.numero_vuelo = vu.numero_vuelo
+AND rv.fecha_viaje = vi.fecha_viaje
+AND rv.numero_vuelo = vi.numero_vuelo
+AND r.codigo_reserva = rv.codigo_reserva
+AND pr.codigo_reserva = r.codigo_reserva
+)
+) AS reporte_intermedio
+WHERE "Origen" = a.codigo_aerop
+GROUP BY a.codigo_aerop, "Período"
+ORDER BY "Subieron" DESC;
