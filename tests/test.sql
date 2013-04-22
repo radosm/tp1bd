@@ -26,20 +26,37 @@ INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 'confirmado', 'tarje
 INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'PRI');
 
 -- 
+-- PERSONA
+--
+
+INSERT INTO persona VALUES (1, 37000000, 'Cristian', 'Gomez', 'December 15, 1996', 'Argentino');
+INSERT INTO persona VALUES (1, 38000000, 'Mariela', 'Gomez', 'October 15, 1997', 'Argentina');
+INSERT INTO persona VALUES (1, 19000000, 'Juan', 'Gomez', 'March 15, 1966', 'Argentino');
+INSERT INTO persona VALUES (1, 20000000, 'Ernestina', 'Quintana', 'May 15, 1967', 'Argentina');
+
+INSERT INTO persona VALUES (1, 28000000, 'Ramos', 'Maria', 'December 27, 1979', 'Argentina');
+INSERT INTO persona VALUES (1, 26000000, 'Andres', 'Diaz', 'October 15, 1975', 'Argentino');
+INSERT INTO persona VALUES (1, 28000001, 'Ramos', 'Maria', 'December 27, 1979', 'Argentina');
+INSERT INTO persona VALUES (1, 26000001, 'Andres', 'Diaz', 'October 15, 1975', 'Argentino');
+
+INSERT INTO persona VALUES (2, 1000000, 'Rosa', 'Garcia', 'June 27, 1940', 'Española');
+
+
+-- 
 -- PERSONA RESERVA
 --
 
-INSERT INTO persona_reserva VALUES ('R0000001', 1, 37000000, 'Cristian', 'Gomez', 'December 15, 1996', 'Argentino');
-INSERT INTO persona_reserva VALUES ('R0000001', 1, 38000000, 'Mariela', 'Gomez', 'October 15, 1997', 'Argentina');
-INSERT INTO persona_reserva VALUES ('R0000002', 1, 19000000, 'Juan', 'Gomez', 'March 15, 1966', 'Argentino');
-INSERT INTO persona_reserva VALUES ('R0000002', 1, 20000000, 'Ernestina', 'Quintana', 'May 15, 1967', 'Argentina');
+INSERT INTO persona_reserva VALUES ('R0000001', 1, 37000000);
+INSERT INTO persona_reserva VALUES ('R0000001', 1, 38000000);
+INSERT INTO persona_reserva VALUES ('R0000002', 1, 19000000);
+INSERT INTO persona_reserva VALUES ('R0000002', 1, 20000000);
 
-INSERT INTO persona_reserva VALUES ('R0000003', 1, 28000000, 'Ramos', 'Maria', 'December 27, 1979', 'Argentina');
-INSERT INTO persona_reserva VALUES ('R0000003', 1, 26000000, 'Andres', 'Diaz', 'October 15, 1975', 'Argentino');
-INSERT INTO persona_reserva VALUES ('R0000004', 1, 28000000, 'Ramos', 'Maria', 'December 27, 1979', 'Argentina');
-INSERT INTO persona_reserva VALUES ('R0000004', 1, 26000000, 'Andres', 'Diaz', 'October 15, 1975', 'Argentino');
+INSERT INTO persona_reserva VALUES ('R0000003', 1, 28000000);
+INSERT INTO persona_reserva VALUES ('R0000003', 1, 26000000);
+INSERT INTO persona_reserva VALUES ('R0000004', 1, 28000001);
+INSERT INTO persona_reserva VALUES ('R0000004', 1, 26000001);
 
-INSERT INTO persona_reserva VALUES ('R0000005', 2, 1000000, 'Rosa', 'Garcia', 'June 27, 1940', 'Española');
+INSERT INTO persona_reserva VALUES ('R0000005', 2, 1000000);
 
 
 -- 
