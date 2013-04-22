@@ -64,6 +64,39 @@
 
 \input ulem.sty
 
+\usepackage{tikz}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+\newcommand{\uloosdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[loosely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+\newcommand{\udash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udensdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[densely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+
+
 \begin{document}
 
 
@@ -88,98 +121,95 @@
 
 \begin{itemize}
   \item \texttt{Cuenta(profesión, email, clave, \underline{userid}, apellido, nombre, teléfono, dirección)
-  \\PK = CK = \{userid\}
+  \\ \\PK = CK = \{userid\}
   \\FK = \{\} 
   }
 
-  \item \texttt{Tarjeta(\dotu{userid}, \underline{numeroTarjeta}, marca, banco\_emisor, validez, dirección\_facturación)
-  \\PK = CK = \{numeroTarjeta\}
+  \item \texttt{Tarjeta(\udash{userid}, \underline{numeroTarjeta}, marca, banco\_emisor, validez, dirección\_facturación)
+  \\ \\PK = CK = \{numeroTarjeta\}
   \\FK = \{userid\}
   }
 
-  \item \texttt{Reserva(\dotu{userid, codigo\_clase}, \underline{codigo\_reserva}, dirección\_entrega, fecha, forma\_de\_pago, estado)
-  \\PK = CK = \{codigo\_reserva\}
+  \item \texttt{Reserva(\udash{userid, codigo\_clase}, \underline{codigo\_reserva}, dirección\_entrega, fecha, forma\_de\_pago, estado)
+  \\ \\PK = CK = \{codigo\_reserva\}
   \\FK = \{userid, codigo\_clase\} 
   }
 
-  \item \texttt{persona\_reserva(\underline{\dotu{tipo\_doc, nro\_doc, codigo\_reserva}})
-  \\PK = CK = FK = \{(tipo\_doc, nro\_doc, codigo\_reserva)\}
+  \item \texttt{persona\_reserva(\underline{\udash{tipo\_doc, nro\_doc, codigo\_reserva}})
+  \\ \\PK = CK = FK = \{(tipo\_doc, nro\_doc, codigo\_reserva)\}
   }
 
   \item \texttt{Persona(\underline{tipo\_doc, nro\_doc}, fecha\_nac, nacionalidad, nombre, apellido)
-  \\PK = CK = \{(tipo\_doc, nro\_doc)\}
+  \\ \\PK = CK = \{(tipo\_doc, nro\_doc)\}
   \\FK = \{\}
   }
 
-  \item \texttt{reserva\_viaje(\underline{orden, \dotu{codigo\_reserva, numero\_vuelo, fecha\_viaje}})
-  \\PK = CK = \{(orden, codigo\_reserva, numero\_vuelo, fecha\_viaje)\}
+  \item \texttt{reserva\_viaje(\underline{orden, \udash{codigo\_reserva, numero\_vuelo, fecha\_viaje}})
+  \\ \\PK = CK = \{(orden, codigo\_reserva, numero\_vuelo, fecha\_viaje)\}
   \\FK = \{codigo\_reserva, numero\_vuelo, fecha\_viaje\}}
 
-  \item \texttt{Viaje(\underline{fecha\_viaje, \dotu{numero\_vuelo}})
-  \\PK = CK = \{(fecha\_viaje, numero\_vuelo)\}
+  \item \texttt{Viaje(\underline{fecha\_viaje, \udash{numero\_vuelo}})
+  \\ \\PK = CK = \{(fecha\_viaje, numero\_vuelo)\}
   \\FK = \{numero\_vuelo\}}
 
-  \item \texttt{Vuelo(\underline{numero\_vuelo}, hora\_despegue, duración, millas, \dotu{origen, destino})
-  \\PK = CK = \{numero\_vuelo\}
+  \item \texttt{Vuelo(\underline{numero\_vuelo}, hora\_despegue, duración, millas, \udash{origen, destino})
+  \\ \\PK = CK = \{numero\_vuelo\}
   \\FK = \{origen, destino\}}
 
-  \item \texttt{cronograma(\underline{\dotu{día, numero\_vuelo}}, \dotu{codigo\_configuracion})
-  \\PK = CK = \{(día, número\_vuelo)\}
+  \item \texttt{cronograma(\underline{\udash{día, numero\_vuelo}}, \udash{codigo\_configuracion})
+  \\ \\PK = CK = \{(día, número\_vuelo)\}
   \\FK = \{día, numero\_vuelo, codigo\_configuracion\}}
-  \\-----LA PK ESTA DIFERENTE QUE EN LA BASE!!!
 
   \item \texttt{Dia(\underline{día})
-  \\PK = CK = \{día\}
+  \\ \\PK = CK = \{día\}
   \\FK = \{\}}
 
   \item \texttt{Configuración(\underline{codigo\_configuración}, descripción)
-  \\PK = CK = \{codigo\_configuración\}
+  \\ \\PK = CK = \{codigo\_configuración\}
   \\FK = \{\}}
-  \\-----CORREGIR CONFIGURACION - ASIENTOS - CLASE!!
 
-  \item \texttt{asientos(\underline{\dotu{codigo\_configuracion, codigo\_clase}}, cantidad)
-  \\PK = CK = FK = \{(codigo\_configuracion, codigo\_clase)\}}
+  \item \texttt{asientos(\underline{\udash{codigo\_configuracion, codigo\_clase}}, cantidad)
+  \\ \\PK = CK = FK = \{(codigo\_configuracion, codigo\_clase)\}}
 
   \item \texttt{Clase(\underline{codigo\_clase}, descripción)
   \\CK = \{codigo\_clase, descripcion\}
-  \\PK = \{codigo\_clase\}
+  \\ \\PK = \{codigo\_clase\}
   \\FK = \{\}}
 
-  \item \texttt{Precio(\underline{\dotu{numero\_vuelo, codigo\_clase}}, tarifa)
-  \\PK = CK = FK = \{numero\_vuelo, codigo\_clase\}}
+  \item \texttt{Precio(\underline{\udash{numero\_vuelo, codigo\_clase}}, tarifa)
+  \\ \\PK = CK = FK = \{numero\_vuelo, codigo\_clase\}}
 
-  \item \texttt{config\_modelo(\underline{\dotu{codigo\_configuracion, codigo\_modelo}})
-  \\PK = CK = FK = \{codigo\_configuracion, codigo\_modelo\}}
+  \item \texttt{config\_modelo(\underline{\udash{codigo\_configuracion, codigo\_modelo}})
+  \\ \\PK = CK = FK = \{codigo\_configuracion, codigo\_modelo\}}
 
   \item \texttt{Modelo\_avion(\underline{codigo\_modelo}, descripcion)
-  \\PK = CK = \{codigo\_modelo\}
+  \\ \\PK = CK = \{codigo\_modelo\}
   \\FK = \{\}}
 
-  \item \texttt{Avion(\underline{codigo\_avion}, año\_fabric, \dotu{codigo\_modelo, codigo\_pais})
-  \\PK = CK = \{codigo\_avion\}
+  \item \texttt{Avion(\underline{codigo\_avion}, año\_fabric, \udash{codigo\_modelo, codigo\_pais})
+  \\ \\PK = CK = \{codigo\_avion\}
   \\FK = \{codigo\_modelo, codigo\_pais\}}
   
-  \item \texttt{tripulacion(\underline{\dotu{fecha\_viaje, numero\_vuelo, codigo\_tripulante}}, \dotu{codigo\_avion})
-  \\PK = CK = \{\}
-  \\FK = \{\}}
-  \\-----FALTA VER COMO VAN LAS CLAVES!!
+  \item \texttt{tripulacion(\underline{\udash{fecha\_viaje, numero\_vuelo, codigo\_tripulante}}, \udash{codigo\_avion})
+  \\ \\PK = CK = \{(fecha\_viaje, numero\_vuelo, codigo\_tripulante)\}
+  \\FK = \{fecha\_viaje, numero\_vuelo, codigo\_tripulante, codigo\_avion\}}
 
   \item \texttt{Tripulante(\underline{codigo\_tripulante}, nombre, apellido, cargo)
-  \\PK = CK = \{codigo\_tripulante\}
+  \\ \\PK = CK = \{codigo\_tripulante\}
   \\FK = \{\}}
 
   \item \texttt{Pais(\underline{codigo\_pais}, nombre)
-  \\CK = \{codigo\_pais, nombre\}
-  \\PK = \{codigo\_pais\}
+  \\ \\CK = \{codigo\_pais, nombre\}
+  \\ PK = \{codigo\_pais\}
   \\FK = \{\}}
 
-  \item \texttt{Aeropuerto(\underline{codigo\_aeropuerto}, información\_transporte, tasa, nombre, \dotu{codigo\_pais})
-  \\CK = \{codigo\_aerop, nombre\}
-  \\PK = \{codigo\_aerop\}
+  \item \texttt{Aeropuerto(\underline{codigo\_aeropuerto}, información\_transporte, tasa, nombre, \udash{codigo\_pais})
+  \\ \\CK = \{codigo\_aerop, nombre\}
+  \\ PK = \{codigo\_aerop\}
   \\FK = \{codigo\_pais\}}
 
-  \item \texttt{Telefonos\_aeropuerto(\underline{numero, \dotu{codigo\_aeropuerto}})
-  \\PK = CK = \{(numero, codigo\_aeropuerto\}
+  \item \texttt{Telefonos\_aeropuerto(\underline{numero, \udash{codigo\_aeropuerto}})
+  \\ \\PK = CK = \{(numero, codigo\_aeropuerto\}
   \\FK = \{codigo\_aeropuerto\}}
 
 \end{itemize}
