@@ -1,3 +1,5 @@
+drop table precio;
+drop table asiento;
 drop table tripulacion;
 drop table tripulante;
 drop table reserva_viaje;
@@ -26,8 +28,7 @@ create table cuenta (
   email varchar not null,
   profesion varchar not null,
   telefono varchar not null,
-  direccion text not null,
-  direccion_entrega text not null
+  direccion text not null
 );
 
 alter table cuenta add primary key (userid);
@@ -36,7 +37,7 @@ create table tarjeta (
   numero numeric(16) not null,
   marca varchar not null, -- visa, diners, etc
   banco_emisor varchar not null, -- bbva
-  vencimiento interval year to month not null,
+  validez interval year to month not null,
   direccion_facturacion text not null,
   userid varchar(8) not null
 );
@@ -57,6 +58,7 @@ create table reserva (
   estado varchar not null,
   forma_de_pago varchar not null,
   userid varchar(8) not null,
+  direccion_entrega text not null,
   codigo_clase char(3) not null
 );
 
@@ -112,7 +114,6 @@ alter table modelo_avion add primary key (codigo_modelo);
 create table avion (
   codigo_avion varchar not null,
   anio_fabric interval year not null,
-  millas integer not null,
   codigo_modelo varchar not null,
   codigo_pais char(2) not null
 );
@@ -147,7 +148,7 @@ create table vuelo(
   numero_vuelo integer not null,
   aeropuerto_ori char(3) not null,
   aeropuerto_dst char(3) not null,
-  hora_despegue interval hour to minute not null,
+  hora_despegue time not null,
   duracion interval hour to minute not null,
   millas integer not null
 );
@@ -182,7 +183,7 @@ create table reserva_viaje (
   orden integer not null
 );
 
-alter table reserva_viaje add primary key (codigo_reserva,numero_vuelo,fecha_viaje);
+alter table reserva_viaje add primary key (codigo_reserva,numero_vuelo,fecha_viaje,orden);
 alter table reserva_viaje add foreign key (numero_vuelo) references vuelo;
 
 create table tripulante (
@@ -206,3 +207,22 @@ alter table tripulacion add foreign key (numero_vuelo,fecha_viaje) references vi
 alter table tripulacion add foreign key (codigo_avion) references avion;
 alter table tripulacion add foreign key (codigo_tripulante) references tripulante;
 
+create table asiento (
+  codigo_config integer not null,
+  codigo_clase char(3) not null,
+  cantidad integer not null
+);
+
+alter table asiento add primary key (codigo_config,codigo_clase);
+alter table asiento add foreign key (codigo_config) references configuracion;
+alter table asiento add foreign key (codigo_clase) references clase;
+
+create table precio (
+  numero_vuelo integer not null,
+  codigo_clase char(3) not null,
+  tarifa float not null
+);
+
+alter table precio add primary key (numero_vuelo,codigo_clase);
+alter table precio add foreign key (numero_vuelo) references vuelo;
+alter table precio add foreign key (codigo_clase) references clase;
