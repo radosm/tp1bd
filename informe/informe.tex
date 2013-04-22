@@ -1,0 +1,217 @@
+
+\documentclass[a4paper,10pt]{article}
+\addtolength{\textwidth}{5.2cm}
+\addtolength{\voffset}{-3cm}
+\addtolength{\hoffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\addtolength{\headheight}{14.0pt}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,activeacute]{babel} 
+\usepackage{paralist}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsfig}
+% \usepackage[T1]{fontenc}
+% \usepackage{cmap}
+% \usepackage{fix-cm}
+% \usepackage{lscape}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{mathrsfs}
+% \usepackage{epstopdf}
+% % \usepackage{algorithmic}
+\usepackage{verbatim}
+% \usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+% \usepackage{graphicx}
+% \usepackage[utf8]{inputenc}
+
+% \usepackage{caratulayabs} %Para la caratula
+\usepackage[pdfborder={0,0,0}]{hyperref}
+% \usepackage{ifthen}
+% \usepackage{paralist}
+% \usepackage{ulem}
+
+\newcommand{\dotu}{\bgroup \markoverwith{\lower .4ex\hbox{\_}}\ULon} % para subrallado punteados
+
+\newcommand{\header}[1]{\textsf{#1}}
+\newcommand{\todo}[1]{\frame{\textsf{TODO} #1}}
+
+%Redefino algunos nombres (como uso babel, lo tengo que hacer asi):
+% Donde dice \chapter quiero que aparezca Problema en lugar de Capitulo
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\chaptername}%
+    {Cap\'itulo}%
+}
+
+%Donde dice Indice general, quiero que aparezca Contenidos
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\contentsname}%
+    {Contenidos}%
+}
+
+%Donde dice Indice general, quiero que aparezca Contenidos
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\appendixname}%
+    {Anexo}%
+}
+
+%Donde dice Cuadro, quiero que aparezca Tabla
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\tablename}%
+    {Tabla}%
+}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\input ulem.sty
+
+\usepackage{tikz}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+\newcommand{\uloosdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[loosely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+\newcommand{\udash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udensdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[densely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+
+
+\begin{document}
+
+
+
+% 	% begin caratula
+% 		\materia{Teoría de las Comunicaciones}
+% 		\submateria{Segundo Cuatrimestre de 2012}
+% 		\titulo{Taller de Capa de Transporte}
+% 		\integrante{Martin Epszteyn}{198/08}{poplpops@hotmail.com}
+% 		\integrante{Alejandro Dan\'os}{381/10}{adp007@msn.com}
+% 		\integrante{Mauricio Alfonso}{65/09}{mauricioalfonso88@gmail.com}
+% 		\maketitle
+% 	% fin caratula
+	
+% 	\tableofcontents
+
+\newpage
+\newpage
+
+
+\section{Modelo Relacional}
+
+\begin{itemize}
+  \item \texttt{Cuenta(profesión, email, clave, \underline{userid}, apellido, nombre, teléfono, dirección)
+  \\ \\PK = CK = \{userid\}
+  \\FK = \{\} 
+  }
+
+  \item \texttt{Tarjeta(\udash{userid}, \underline{numeroTarjeta}, marca, banco\_emisor, validez, dirección\_facturación)
+  \\ \\PK = CK = \{numeroTarjeta\}
+  \\FK = \{userid\}
+  }
+
+  \item \texttt{Reserva(\udash{userid, codigo\_clase}, \underline{codigo\_reserva}, dirección\_entrega, fecha, forma\_de\_pago, estado)
+  \\ \\PK = CK = \{codigo\_reserva\}
+  \\FK = \{userid, codigo\_clase\} 
+  }
+
+  \item \texttt{persona\_reserva(\underline{\udash{tipo\_doc, nro\_doc, codigo\_reserva}})
+  \\ \\PK = CK = FK = \{(tipo\_doc, nro\_doc, codigo\_reserva)\}
+  }
+
+  \item \texttt{Persona(\underline{tipo\_doc, nro\_doc}, fecha\_nac, nacionalidad, nombre, apellido)
+  \\ \\PK = CK = \{(tipo\_doc, nro\_doc)\}
+  \\FK = \{\}
+  }
+
+  \item \texttt{reserva\_viaje(\underline{orden, \udash{codigo\_reserva, numero\_vuelo, fecha\_viaje}})
+  \\ \\PK = CK = \{(orden, codigo\_reserva, numero\_vuelo, fecha\_viaje)\}
+  \\FK = \{codigo\_reserva, numero\_vuelo, fecha\_viaje\}}
+
+  \item \texttt{Viaje(\underline{fecha\_viaje, \udash{numero\_vuelo}})
+  \\ \\PK = CK = \{(fecha\_viaje, numero\_vuelo)\}
+  \\FK = \{numero\_vuelo\}}
+
+  \item \texttt{Vuelo(\underline{numero\_vuelo}, hora\_despegue, duración, millas, \udash{origen, destino})
+  \\ \\PK = CK = \{numero\_vuelo\}
+  \\FK = \{origen, destino\}}
+
+  \item \texttt{cronograma(\underline{\udash{día, numero\_vuelo}}, \udash{codigo\_configuracion})
+  \\ \\PK = CK = \{(día, número\_vuelo)\}
+  \\FK = \{día, numero\_vuelo, codigo\_configuracion\}}
+
+  \item \texttt{Dia(\underline{día})
+  \\ \\PK = CK = \{día\}
+  \\FK = \{\}}
+
+  \item \texttt{Configuración(\underline{codigo\_configuración}, descripción)
+  \\ \\PK = CK = \{codigo\_configuración\}
+  \\FK = \{\}}
+
+  \item \texttt{asientos(\underline{\udash{codigo\_configuracion, codigo\_clase}}, cantidad)
+  \\ \\PK = CK = FK = \{(codigo\_configuracion, codigo\_clase)\}}
+
+  \item \texttt{Clase(\underline{codigo\_clase}, descripción)
+  \\CK = \{codigo\_clase, descripcion\}
+  \\ \\PK = \{codigo\_clase\}
+  \\FK = \{\}}
+
+  \item \texttt{Precio(\underline{\udash{numero\_vuelo, codigo\_clase}}, tarifa)
+  \\ \\PK = CK = FK = \{numero\_vuelo, codigo\_clase\}}
+
+  \item \texttt{config\_modelo(\underline{\udash{codigo\_configuracion, codigo\_modelo}})
+  \\ \\PK = CK = FK = \{codigo\_configuracion, codigo\_modelo\}}
+
+  \item \texttt{Modelo\_avion(\underline{codigo\_modelo}, descripcion)
+  \\ \\PK = CK = \{codigo\_modelo\}
+  \\FK = \{\}}
+
+  \item \texttt{Avion(\underline{codigo\_avion}, año\_fabric, \udash{codigo\_modelo, codigo\_pais})
+  \\ \\PK = CK = \{codigo\_avion\}
+  \\FK = \{codigo\_modelo, codigo\_pais\}}
+  
+  \item \texttt{tripulacion(\underline{\udash{fecha\_viaje, numero\_vuelo, codigo\_tripulante}}, \udash{codigo\_avion})
+  \\ \\PK = CK = \{(fecha\_viaje, numero\_vuelo, codigo\_tripulante)\}
+  \\FK = \{fecha\_viaje, numero\_vuelo, codigo\_tripulante, codigo\_avion\}}
+
+  \item \texttt{Tripulante(\underline{codigo\_tripulante}, nombre, apellido, cargo)
+  \\ \\PK = CK = \{codigo\_tripulante\}
+  \\FK = \{\}}
+
+  \item \texttt{Pais(\underline{codigo\_pais}, nombre)
+  \\ \\CK = \{codigo\_pais, nombre\}
+  \\ PK = \{codigo\_pais\}
+  \\FK = \{\}}
+
+  \item \texttt{Aeropuerto(\underline{codigo\_aeropuerto}, información\_transporte, tasa, nombre, \udash{codigo\_pais})
+  \\ \\CK = \{codigo\_aerop, nombre\}
+  \\ PK = \{codigo\_aerop\}
+  \\FK = \{codigo\_pais\}}
+
+  \item \texttt{Telefonos\_aeropuerto(\underline{numero, \udash{codigo\_aeropuerto}})
+  \\ \\PK = CK = \{(numero, codigo\_aeropuerto\}
+  \\FK = \{codigo\_aeropuerto\}}
+
+\end{itemize}
+
+\end{document}
