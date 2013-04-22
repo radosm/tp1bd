@@ -48,8 +48,16 @@ ORDER BY "Subieron" DESC;
 
 -- 
 -- Segundo intento: no es muy elegante, pero funciona
+-- Modificacion 1:
+-- 		- Pone 0 donde hay NULL (bajaron 0/subieron 0)
+--		- Filtro por fecha (?)
 -- 
-SELECT aeropuerto.codigo_aerop, periodo_col1, col1.count, col2.count
+
+SELECT
+ aeropuerto.codigo_aerop AS "Codigo Aeropuerto",
+ CASE WHEN periodo_col1 IS NOT NULL THEN periodo_col1 ELSE periodo_col2 END AS "Periodo",
+ CASE WHEN col1.count IS NOT NULL THEN col1.count ELSE 0 END AS "Subieron",
+ CASE WHEN col2.count IS NOT NULL THEN col2.count ELSE 0 END AS "Bajaron" 
 FROM aeropuerto
 LEFT JOIN
  ( SELECT a.codigo_aerop AS codaero, periodo_col1 , count(*) AS "count"
@@ -65,6 +73,8 @@ LEFT JOIN
     AND rv.numero_vuelo = vi.numero_vuelo
     AND r.codigo_reserva = rv.codigo_reserva
     AND pr.codigo_reserva = r.codigo_reserva
+    -- FILTRO?
+    AND rv.fecha_viaje > 'January 30, 2013' AND rv.fecha_viaje < 'February 17, 2013'
     )
     ) AS reporte_intermedio
    WHERE origen = a.codigo_aerop
@@ -84,8 +94,10 @@ LEFT JOIN
     AND rv.numero_vuelo = vi.numero_vuelo
     AND r.codigo_reserva = rv.codigo_reserva
     AND pr.codigo_reserva = r.codigo_reserva
+    AND rv.fecha_viaje > 'January 30, 2013' AND rv.fecha_viaje < 'February 17, 2013'
     )
     ) AS reporte_intermedio
    WHERE destino = a.codigo_aerop
    GROUP BY a.codigo_aerop, periodo_col2 ) col2
-ON (aeropuerto.codigo_aerop = col2.codaero);
+ON (aeropuerto.codigo_aerop = col2.codaero)
+ORDER BY "Subieron" DESC;
