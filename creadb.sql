@@ -1,24 +1,24 @@
-drop table precio;
-drop table asiento;
-drop table tripulacion;
-drop table tripulante;
-drop table reserva_viaje;
-drop table viaje;
-drop table cronograma;
-drop table vuelo;
-drop table config_modelo;
-drop table configuracion;
-drop table dia;
-drop table avion;
-drop table modelo_avion;
-drop table telefonos_aeropuerto;
-drop table aeropuerto;
-drop table pais;
-drop table persona_reserva;
-drop table reserva;
-drop table clase;
-drop table tarjeta;
-drop table cuenta;
+drop table if exists precio;
+drop table if exists asiento;
+drop table if exists tripulacion;
+drop table if exists tripulante;
+drop table if exists reserva_viaje;
+drop table if exists viaje;
+drop table if exists cronograma;
+drop table if exists vuelo;
+drop table if exists config_modelo;
+drop table if exists configuracion;
+drop table if exists dia;
+drop table if exists avion;
+drop table if exists modelo_avion;
+drop table if exists telefonos_aeropuerto;
+drop table if exists aeropuerto;
+drop table if exists pais;
+drop table if exists persona_reserva;
+drop table if exists reserva;
+drop table if exists clase;
+drop table if exists tarjeta;
+drop table if exists cuenta;
 
 create table cuenta (
   userid varchar(8) not null,
