@@ -1,3 +1,5 @@
+drop table reserva_viaje;
+drop table viaje;
 drop table cronograma;
 drop table vuelo;
 drop table config_modelo;
@@ -50,6 +52,8 @@ alter table clase add primary key (codigo_clase);
 
 create table reserva (
   codigo_reserva char(8),
+  fecha date,
+  estado varchar,
   forma_de_pago varchar,
   userid varchar(8),
   codigo_clase char(3)
@@ -73,16 +77,16 @@ alter table persona_cuenta add primary key (tipo_doc,nro_doc);
 alter table persona_cuenta add foreign key (userid) references cuenta;
 
 create table persona_reserva (
+  codigo_reserva char(8),
   tipo_doc varchar(20),
   nro_doc numeric(20),
   nombre varchar,
   apellido varchar,
   fecha_nac date,
-  nacionalidad varchar,
-  codigo char(8)
+  nacionalidad varchar
 );
 
-alter table persona_reserva add primary key (tipo_doc,nro_doc);
+alter table persona_reserva add primary key (codigo_reserva,tipo_doc,nro_doc);
 alter table persona_reserva add foreign key (codigo_reserva) references reserva;
 
 create table pais (
@@ -170,3 +174,22 @@ alter table cronograma add primary key (numero_vuelo,dia,codigo_config);
 alter table cronograma add foreign key (numero_vuelo) references vuelo;
 alter table cronograma add foreign key (dia) references dia;
 alter table cronograma add foreign key (codigo_config) references configuracion;
+
+create table viaje (
+  numero_vuelo integer,
+  fecha_viaje date
+);
+
+alter table viaje add primary key (numero_vuelo,fecha_viaje);
+alter table viaje add foreign key (numero_vuelo) references vuelo;
+
+create table reserva_viaje (
+  codigo_reserva char(8),
+  numero_vuelo integer,
+  fecha_viaje date,
+  orden integer
+);
+
+alter table reserva_viaje add primary key (codigo_reserva,numero_vuelo,fecha_viaje);
+alter table reserva_viaje add foreign key (numero_vuelo) references vuelo;
+
