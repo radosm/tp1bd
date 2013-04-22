@@ -1,0 +1,106 @@
+% **************************************************************************
+%
+%  Package 'caratula', version 0.3.1 (para componer caratulas de TPs del DC).
+%
+% 
+% **************************************************************************
+
+
+% ----- Informacion sobre el package para el sistema -----------------------
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{caratulayabs}[2003/4/13 v0.3.1 Para componer caratulas de 
+TPs del DC con abstract y palabras clave]
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+
+% ----- Imprimir un mensajito al procesar un .tex que use este package -----
+
+\typeout{Cargando package 'caratula' v0.2 (21/4/2003)}
+
+
+% ----- Algunas variables --------------------------------------------------
+
+\let\Materia\relax
+\let\Submateria\relax
+\let\Titulo\relax
+\let\Subtitulo\relax
+\let\Grupo\relax
+\let\Abs\relax
+\let\PalabrasClave\relax
+
+% ----- Comandos para que el usuario defina las variables ------------------
+
+\def\materia#1{\def\Materia{#1}}
+\def\submateria#1{\def\Submateria{#1}}
+\def\titulo#1{\def\Titulo{#1}}
+\def\subtitulo#1{\def\Subtitulo{#1}}
+\def\grupo#1{\def\Grupo{#1}}
+\def\abs#1{\def\Abs{#1}}
+\def\keywords#1{\def\PalabrasClave{\textsc{#1}}}
+
+% ----- Token list para los integrantes ------------------------------------
+
+\newtoks\intlist\intlist={}
+
+
+% ----- Comando para que el usuario agregue integrantes
+
+\def\integrante#1#2#3{\intlist=\expandafter{\the\intlist
+	\rule{0pt}{1.2em}#1&#2&\tt #3\\[0.2em]}}
+
+
+% ----- Macro para generar la tabla de integrantes -------------------------
+
+\def\tablaints{%
+	\begin{tabular}{l@{\hspace{4ex}}c@{\hspace{4ex}}l}
+		\toprule
+% 		Integrante & LU & Correo electr\'onico (\texttt{@gmail.com})\\[0.2em]
+		Integrante & LU & Correo electr\'onico \\[0.2em]
+		\midrule
+		\the\intlist
+		\bottomrule
+	\end{tabular}}
+
+
+% ----- Codigo para manejo de errores --------------------------------------
+
+\def\se{\let\ifsetuperror\iftrue}
+\def\ifsetuperror{%
+	\let\ifsetuperror\iffalse
+	\ifx\Materia\relax\se\errhelp={Te olvidaste de proveer una \materia{}.}\fi
+	\ifx\Titulo\relax\se\errhelp={Te olvidaste de proveer un \titulo{}.}\fi
+	\edef\mlist{\the\intlist}\ifx\mlist\empty\se%
+	\errhelp={Tenes que proveer al menos un \integrante{nombre}{lu}{email}.}\fi
+	\expandafter\ifsetuperror}
+
+
+% ----- El maketitle con abstract, palabras clave y logo del DC ------------
+
+\def\maketitle{%
+	\ifsetuperror\errmessage{Faltan datos de la caratula! Ingresar 'h' para mas informacion.}\fi
+	\thispagestyle{empty}
+	\begin{figure}
+	\makebox[\textwidth][r]{
+		\includegraphics{DC.pdf}
+	}
+	\end{figure}
+	\begin{center}
+	\vspace*{\stretch{2}}
+	{\LARGE\textbf{\Materia}}\\[1em]
+	\ifx\Submateria\relax\else{\Large \Submateria}\\[0.5em]\fi
+	\par\vspace{\stretch{1}}
+	{\large Departamento de Computaci\'on}\\[0.5em]
+	{\large Facultad de Ciencias Exactas y Naturales}\\[0.5em]
+	{\large Universidad de Buenos Aires}
+	\par\vspace{\stretch{2}}
+	{\Large \textbf{\Titulo}}\\[0.8em]
+	{\Large \Subtitulo}
+	\par\vspace{\stretch{2}}
+	\ifx\Grupo\relax\else\textbf{\Grupo}\par\bigskip\fi
+	\tablaints
+	\par\vspace{\stretch{1}}
+	\end{center}
+	\vspace*{\stretch{3}}
+	\newpage}
