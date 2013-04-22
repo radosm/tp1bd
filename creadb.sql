@@ -1,3 +1,8 @@
+drop table cronograma;
+drop table vuelo;
+drop table config_modelo;
+drop table configuracion;
+drop table dia;
 drop table avion;
 drop table modelo_avion;
 drop table telefonos_aeropuerto;
@@ -124,3 +129,44 @@ alter table avion add primary key (codigo_avion);
 alter table avion add foreign key (codigo_modelo) references modelo_avion;
 alter table avion add foreign key (codigo_pais) references pais;
 
+create table dia (
+  dia char(3)
+);
+
+alter table dia add primary key (dia);
+
+create table configuracion (
+  codigo_config integer,
+  descripcion text
+);
+
+alter table configuracion add primary key (codigo_config);
+
+create table config_modelo(
+  codigo_modelo varchar,
+  codigo_config integer
+);
+
+alter table config_modelo add primary key (codigo_modelo,codigo_config);
+alter table config_modelo add foreign key (codigo_modelo) references modelo_avion;
+alter table config_modelo add foreign key (codigo_config) references configuracion;
+
+create table vuelo(
+  numero_vuelo integer,
+  hora_despegue interval hour to minute,
+  duracion interval hour to minute,
+  millas integer
+);
+
+alter table vuelo add primary key (numero_vuelo);
+
+create table cronograma (
+  numero_vuelo integer,
+  dia char(3),
+  codigo_config integer
+);
+
+alter table cronograma add primary key (numero_vuelo,dia,codigo_config);
+alter table cronograma add foreign key (numero_vuelo) references vuelo;
+alter table cronograma add foreign key (dia) references dia;
+alter table cronograma add foreign key (codigo_config) references configuracion;
