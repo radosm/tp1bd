@@ -2,8 +2,8 @@
 --  CUENTA
 --
 
-INSERT INTO cuenta VALUES ('C0001', 'Juan', 'Gomez', 'abc123', 'juan@law.com', 'abogado','555-0001','calle 11', 'calle 11');
-INSERT INTO cuenta VALUES ('C0002', 'Maria', 'Ramos', 'qwerty', 'maria@acc.com', 'contadora','555-0010','calle 12', 'calle 12');
+INSERT INTO cuenta VALUES ('C0001', 'Juan', 'Gomez', 'abc123', 'juan@law.com', 'abogado','555-0001','calle 11');
+INSERT INTO cuenta VALUES ('C0002', 'Maria', 'Ramos', 'qwerty', 'maria@acc.com', 'contadora','555-0010','calle 12');
 
 --
 -- CLASE
@@ -18,12 +18,12 @@ INSERT INTO clase VALUES ('TUR', 'Clase turista');
 -- RESERVA
 --
 
-INSERT INTO reserva VALUES ('R0000001', 'January 5, 2013', 'confirmado', 'tarjeta', 'C0001', 'TUR');
-INSERT INTO reserva VALUES ('R0000002', 'January 5, 2013', 'confirmado', 'tarjeta', 'C0001', 'PRI');
-INSERT INTO reserva VALUES ('R0000003', 'January 5, 2013', 'confirmado', 'efectivo', 'C0002', 'BIZ');
-INSERT INTO reserva VALUES ('R0000004', 'January 10, 2013', 'confirmado', 'efectivo', 'C0002', 'BIZ');
-INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 'confirmado', 'tarjeta', 'C0002', 'BIZ');
-INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 'confirmado', 'tarjeta', 'C0002', 'PRI');
+INSERT INTO reserva VALUES ('R0000001', 'January 5, 2013', 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'TUR');
+INSERT INTO reserva VALUES ('R0000002', 'January 5, 2013', 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'PRI');
+INSERT INTO reserva VALUES ('R0000003', 'January 5, 2013', 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000004', 'January 10, 2013', 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'PRI');
 
 -- 
 -- PERSONA RESERVA
