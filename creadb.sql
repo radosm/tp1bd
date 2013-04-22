@@ -1,3 +1,5 @@
+drop table precio;
+drop table asiento;
 drop table tripulacion;
 drop table tripulante;
 drop table reserva_viaje;
@@ -205,3 +207,22 @@ alter table tripulacion add foreign key (numero_vuelo,fecha_viaje) references vi
 alter table tripulacion add foreign key (codigo_avion) references avion;
 alter table tripulacion add foreign key (codigo_tripulante) references tripulante;
 
+create table asiento (
+  codigo_config integer not null,
+  codigo_clase char(3) not null,
+  cantidad integer not null
+);
+
+alter table asiento add primary key (codigo_config,codigo_clase);
+alter table asiento add foreign key (codigo_config) references configuracion;
+alter table asiento add foreign key (codigo_clase) references clase;
+
+create table precio (
+  numero_vuelo integer not null,
+  codigo_clase char(3) not null,
+  tarifa float not null
+);
+
+alter table precio add primary key (numero_vuelo,codigo_clase);
+alter table precio add foreign key (numero_vuelo) references vuelo;
+alter table precio add foreign key (codigo_clase) references clase;
