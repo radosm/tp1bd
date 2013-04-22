@@ -145,12 +145,16 @@ alter table config_modelo add foreign key (codigo_config) references configuraci
 
 create table vuelo(
   numero_vuelo integer not null,
+  aeropuerto_ori char(3) not null,
+  aeropuerto_dst char(3) not null,
   hora_despegue interval hour to minute not null,
   duracion interval hour to minute not null,
   millas integer not null
 );
 
 alter table vuelo add primary key (numero_vuelo);
+alter table vuelo add foreign key (aeropuerto_ori) references aeropuerto (codigo_aerop);
+alter table vuelo add foreign key (aeropuerto_dst) references aeropuerto (codigo_aerop);
 
 create table cronograma (
   numero_vuelo integer not null,
