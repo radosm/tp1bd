@@ -70,6 +70,7 @@ create table reserva (
 alter table reserva add primary key (codigo_reserva);
 alter table reserva add foreign key (userid) references cuenta;
 alter table reserva add foreign key (codigo_clase) references clase;
+alter table reserva add constraint check_estado check (estado in ('confirmado','pendiente','cancelado'));
 
 create table persona (
   tipo_doc integer not null,
@@ -259,7 +260,7 @@ alter table precio add foreign key (codigo_clase) references clase;
 --
 create or replace view vw_datos_reserva as
                select 
-                r.userid , r.codigo_reserva, r1.fecha_viaje fecha_sale 
+                r.userid , r.codigo_reserva, r.estado, r1.fecha_viaje fecha_sale 
                ,r2.fecha_viaje fecha_llega, v1.aeropuerto_ori, v2.aeropuerto_dst
                from reserva r ,reserva_viaje r1 ,reserva_viaje r2 ,vuelo v1 ,vuelo v2 
                where r.codigo_reserva=r1.codigo_reserva 
@@ -283,7 +284,7 @@ begin
   -- Verifica mas de dos en la misma fecha/aerop de salida y fecha/aerop de llegada
   --
   select count(*) into v_count from vw_datos_reserva
-  where userid=v_nr.userid
+  where userid=v_nr.userid and estado='pendiente'
     and (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
                                 =
         (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst);
@@ -301,7 +302,7 @@ begin
   -- Verifica solapamiento
   --
   select count(*) into v_count from vw_datos_reserva
-  where userid=v_nr.userid
+  where userid=v_nr.userid and estado='pendiente'
     and (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
                                 !=
         (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst)
