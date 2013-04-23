@@ -102,12 +102,15 @@
 
 
 	% begin caratula
-		\materia{Teoría de las Comunicaciones}
-		\submateria{Segundo Cuatrimestre de 2012}
-		\titulo{Taller de Capa de Transporte}
-		\integrante{Martin Epszteyn}{198/08}{poplpops@hotmail.com}
-		\integrante{Alejandro Dan\'os}{381/10}{adp007@msn.com}
-		\integrante{Mauricio Alfonso}{65/09}{mauricio.alfonso.88@gmail.com}
+		\materia{Bases de datos}
+		\submateria{Primer Cuatrimestre de 2013}
+		\titulo{Trabajo Práctico 1}
+		\subtitulo{Primera parte}
+		\integrante{Mauricio Alfonso}{065/09}{mauricio.alfonso.88@gmail.com}
+		\integrante{Ángel Abregú}{082/09}{angelj\_a@hotmail.com}
+		\integrante{Esteban Capillo}{484/04}{radosm@gmail.com}
+		\integrante{Martín Rados}{185/93}{estebancapillo@gmail.com}
+		
 		\maketitle
 	% fin caratula
 	
@@ -250,6 +253,9 @@
   \item Una \texttt{Reserva} es para varias personas, pero asumimos que viajan en la misma clase. De la misma manera asumimos que todos los vuelos de una reserva son en la misma clase.
 
   \item Un \texttt{Vuelo} se hace varias al menos una vez por semana, siempre en el mismo horario. Asumimos que el mismo vuelo no se puede realizar dos veces en un mismo día. Denominamos \texttt{Configuración} a una manera de organizar los asientos por clase en un avión. Un vuelo puede tener varias configuraciones diferentes dependiendo del día de semana.
+    
+  \item El usuario que realiza una reserva debe garantizar que la combinación de viajes sea realizable según el \underline{\textbf{orden}} dado. Es decir, asumimos que para todo viaje $v$ de una misma reserva, el siguiente en orden (si existe) tiene que partir tiempo después que $v$ llegue, y además, el aeropuerto de origen ser el aeropuerto de llegada de $v$.
+  
 \end{itemize}
 
 \subsection{Restricciones adicionales}
