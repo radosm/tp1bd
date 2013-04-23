@@ -1,3 +1,4 @@
+drop view if exists vw_paso_por;
 drop trigger if exists check_reserva on reserva_viaje;
 drop function if exists check_reserva();
 drop view if exists vw_datos_reserva;

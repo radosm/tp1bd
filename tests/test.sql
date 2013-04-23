@@ -57,6 +57,7 @@ INSERT INTO persona_reserva VALUES ('R0000004', 1, 28000001);
 INSERT INTO persona_reserva VALUES ('R0000004', 1, 26000001);
 
 INSERT INTO persona_reserva VALUES ('R0000005', 2, 1000000);
+INSERT INTO persona_reserva VALUES ('R0000005', 1, 26000000);
 
 
 -- 
@@ -138,4 +139,4 @@ INSERT INTO reserva_viaje VALUES ('R0000003', 4, 'January 31, 2013', 2);  -- Los
 
 INSERT INTO reserva_viaje VALUES ('R0000004', 5, 'February 18, 2013', 1); -- El tercer viaje, con una reserva aparte
 
-INSERT INTO reserva_viaje VALUES ('R0000005', 3, 'February 15, 2013', 1);
+INSERT INTO reserva_viaje VALUES ('R0000005', 5, 'February 18, 2013', 1);
