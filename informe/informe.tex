@@ -1,4 +1,3 @@
-
 \documentclass[a4paper,10pt]{article}
 \addtolength{\textwidth}{5.2cm}
 \addtolength{\voffset}{-3cm}
@@ -23,6 +22,7 @@
 % \usepackage[lined,boxed,commentsnumbered]{algorithm2e}
 % \usepackage{graphicx}
 % \usepackage[utf8]{inputenc}
+\usepackage{lscape}
 
 \usepackage{caratulayabs} %Para la caratula
 \usepackage[pdfborder={0,0,0}]{hyperref}
@@ -107,17 +107,43 @@
 		\titulo{Taller de Capa de Transporte}
 		\integrante{Martin Epszteyn}{198/08}{poplpops@hotmail.com}
 		\integrante{Alejandro Dan\'os}{381/10}{adp007@msn.com}
-		\integrante{Mauricio Alfonso}{65/09}{mauricioalfonso88@gmail.com}
+		\integrante{Mauricio Alfonso}{65/09}{mauricio.alfonso.88@gmail.com}
 		\maketitle
 	% fin caratula
 	
-	\tableofcontents
+\tableofcontents
 
 \newpage
 \newpage
 
+\section{Introducci\'on}
 
-\section{Modelo Relacional}
+(falta)
+\newpage
+
+\section{Modelos}
+
+\subsection{Modelo Entidad-Relaci\'on}
+
+% \begin{landscape}
+% \includegraphics[scale=.35]{DER.png}
+% \end{landscape}
+
+% \begin{figure}[!h]
+% \centering
+% \epsfig{file=./DER.png,width=0.9\linewidth,clip=}
+% % \caption{AnÃ¡lisis de rendimiento de los scans con respecto a la cantidad de puertos scanneados.}
+% \end{figure}
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[angle=90, scale=.35]{DER.png}
+%     \caption{Property profile of the diverse library compared to the compound pool.}
+%     \label{fig:PropProf}
+\end{figure}
+
+
+\subsection{Modelo Relacional}
 
 \begin{itemize}
   \item \texttt{Cuenta(profesión, email, clave, \underline{userid}, apellido, nombre, teléfono, dirección)
@@ -213,5 +239,25 @@
   \\FK = \{codigo\_aeropuerto\}}
 
 \end{itemize}
+
+\subsection{Supuestos asumidos}
+
+\begin{itemize}
+ \item Denominamos \texttt{Vuelo} a un vuelo que se hace frecuentemente entre dos aeropuertos. \texttt{Viaje} es una instancia particular de \texttt{Vuelo}, es decir, un vuelo en una fecha en particular. Si una persona hace un viaje con escalas, entonces decimos que en realidad hace varios viajes, uno por cada tramo. Dichos viajes son agrupados en una \texttt{Reserva}, y el orden de los tramos est\'a indicado por el atributo \texttt{tramo} de la relaci\'on \texttt{reserva\_viaje}.
+
+  \item Una \texttt{Reserva} es para varias personas, pero asumimos que viajan en la misma clase.
+
+  \item Denominamos \texttt{Configuración} a un conjunto de 
+\end{itemize}
+
+\newpage
+\section{Funcionalidades}
+
+(falta)
+
+\newpage
+\section{Conclusiones}
+
+(falta)
 
 \end{document}
