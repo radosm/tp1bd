@@ -288,13 +288,17 @@ begin
         (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst);
 
   if v_count >2 then
-    raise exception 'no se permiten más de dos reservas para la misma fecha/aerop de salida y fecha/aerop de llegada!';
+    raise exception 'No se permiten más de dos reservas para la misma fecha/aerop de salida y fecha/aerop de llegada!';
+  end if;
+  
+  -- Solo una si estamos a menos de 7 días de la fecha de salida
+  if v_count = 2 and (v_nr.fecha_sale >= current_date) and (v_nr.fecha_sale - current_date) < 7 days then
+    raise exception 'No se permite más de una reserva para la misma fecha/aerop de salida y fecha/aerop de llegada cuando faltan menos de 7 dias para la fecha de salida!';
   end if;
 
   -- 
   -- Verifica solapamiento
   --
-  
   select count(*) into v_count from vw_datos_reserva
   where userid=v_nr.userid
     and (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
