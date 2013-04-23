@@ -118,6 +118,7 @@ INSERT INTO precio VALUES (5,'BIZ',1500);
 INSERT INTO viaje VALUES ( 1, 'January 17, 2013');	-- BS --> SAO PAULO
 
 INSERT INTO viaje VALUES ( 2, 'January 17, 2013');	-- BS AS --> SAO PAULO
+INSERT INTO viaje VALUES ( 2, 'January 18, 2013');	-- BS AS --> SAO PAULO
 INSERT INTO viaje VALUES ( 4, 'January 31, 2013');	-- SAO PAULO --> BOGOTA
 INSERT INTO viaje VALUES ( 5, 'February 18, 2013');	-- BOGOTA --> MEX DF
 
@@ -129,10 +130,12 @@ INSERT INTO viaje VALUES ( 3, 'February 15, 2013');	-- BS AS --> BOGOTA
 --
 
 INSERT INTO reserva_viaje VALUES ('R0000001', 1, 'January 17, 2013', 1);
+
 INSERT INTO reserva_viaje VALUES ('R0000002', 1, 'January 17, 2013', 1);
 
 INSERT INTO reserva_viaje VALUES ('R0000003', 2, 'January 17, 2013', 1);  --
 INSERT INTO reserva_viaje VALUES ('R0000003', 4, 'January 31, 2013', 2);  -- Los dos primeros viajes con una reserva
+
 INSERT INTO reserva_viaje VALUES ('R0000004', 5, 'February 18, 2013', 1); -- El tercer viaje, con una reserva aparte
 
 INSERT INTO reserva_viaje VALUES ('R0000005', 3, 'February 15, 2013', 1);

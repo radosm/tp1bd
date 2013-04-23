@@ -1,3 +1,6 @@
+drop trigger if exists check_reserva on reserva_viaje;
+drop function if exists check_reserva();
+drop view if exists vw_datos_reserva;
 drop table if exists precio;
 drop table if exists asiento;
 drop table if exists tripulacion;
@@ -238,3 +241,79 @@ create table precio (
 alter table precio add primary key (numero_vuelo,codigo_clase);
 alter table precio add foreign key (numero_vuelo) references vuelo;
 alter table precio add foreign key (codigo_clase) references clase;
+
+
+--
+-- Para que el código quede más comprensible se usa esta vista
+-- cuya salida es del tipo:
+--
+-- userid | codigo_reserva | fecha_sale | fecha_llega | aeropuerto_ori | aeropuerto_dst 
+-- -------+----------------+------------+-------------+----------------+----------------
+-- C0001  | R0000001       | 2013-01-17 | 2013-01-17  | 001            | 002
+-- C0001  | R0000002       | 2013-01-17 | 2013-01-17  | 001            | 002
+-- C0002  | R0000003       | 2013-01-17 | 2013-01-31  | 001            | 005
+-- C0002  | R0000004       | 2013-02-18 | 2013-02-18  | 005            | 009
+-- C0002  | R0000005       | 2013-02-15 | 2013-02-15  | 001            | 005
+-- C0001  | R0000099       | 2013-01-17 | 2013-01-17  | 001            | 002
+--
+create or replace view vw_datos_reserva as
+               select 
+                r.userid , r.codigo_reserva, r1.fecha_viaje fecha_sale 
+               ,r2.fecha_viaje fecha_llega, v1.aeropuerto_ori, v2.aeropuerto_dst
+               from reserva r ,reserva_viaje r1 ,reserva_viaje r2 ,vuelo v1 ,vuelo v2 
+               where r.codigo_reserva=r1.codigo_reserva 
+                 and r1.codigo_reserva=r2.codigo_reserva
+                 and v1.numero_vuelo=r1.numero_vuelo
+                 and v2.numero_vuelo=r2.numero_vuelo
+                 and (r1.codigo_reserva,r1.orden,r2.orden) in (select codigo_reserva,min(orden),max(orden)
+                                                               from reserva_viaje group by codigo_reserva);
+
+
+create function check_reserva() returns trigger as
+$$
+declare
+  v_count int;
+  v_nr vw_datos_reserva%rowtype;  -- Reserva que se está dando de alta
+begin
+
+  select * from vw_datos_reserva into v_nr where codigo_reserva=new.codigo_reserva;
+
+  --
+  -- Verifica mas de dos en la misma fecha/aerop de salida y fecha/aerop de llegada
+  --
+  select count(*) into v_count from vw_datos_reserva
+  where userid=v_nr.userid
+    and (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
+                                =
+        (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst);
+
+  if v_count >2 then
+    raise exception 'no se permiten más de dos reservas para la misma fecha/aerop de salida y fecha/aerop de llegada!';
+  end if;
+
+  -- 
+  -- Verifica solapamiento
+  --
+  
+  select count(*) into v_count from vw_datos_reserva
+  where userid=v_nr.userid
+    and (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
+                                !=
+        (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst)
+    and (
+           (v_nr.fecha_sale between fecha_sale and fecha_llega)
+        or 
+           (fecha_llega between v_nr.fecha_sale and v_nr.fecha_llega)
+        ); 
+
+  if v_count >0 then
+    raise exception 'Hay solapamiento de reservas!';
+  end if;
+
+  return new;
+end;
+$$ language plpgsql;
+
+create constraint trigger check_reserva after insert or update on reserva_viaje
+    deferrable initially deferred
+    for each row execute procedure check_reserva();
