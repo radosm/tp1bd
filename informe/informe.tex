@@ -120,9 +120,7 @@
 
 % indice:
 	
-% \tableofcontents
-
-\newpage
+ \tableofcontents
 \newpage
 
 \section{Introducci\'on}
@@ -312,7 +310,13 @@ cabo por sus clientes. Las funcionalidades que deben implementarse se detallan e
 \end{itemize}
 
 \newpage
-\section{Funcionalidades}
+\section{Implementación de la BD y funcionalidades}
+
+\paragraph{}
+Para la implementación de la base de datos, hemos elegido el DBMS PostgreSQL.\\
+
+La implementación de las relaciones del MR se encuentran en el archivo \texttt{creadb.sql}. Así como también los triggers relevantes para la reserva de pasajes, como es
+el control del solapamiento de fechas y qué hacer en tal caso (Véase sección 3.3 y 3.4 para una descripción más detallada).\\
 
 % hay que reemplazar todos los tabs por espacios para que quede bien
 
@@ -381,7 +385,6 @@ CREATE OR REPLACE VIEW vw_paso_por AS
   
 \end{verbatim}
 
-\newpage
 
 \begin{verbatim}
 --
@@ -417,6 +420,7 @@ El siguiente trigger sirve para que un usuario no pueda tener m\'as de una reser
 
 \begin{verbatim}
  
+ 
 CREATE OR REPLACE VIEW vw_datos_reserva AS
   SELECT 
    r.userid , r.codigo_reserva, r.estado, r1.fecha_viaje fecha_sale,
@@ -443,7 +447,7 @@ BEGIN
   -- Verifica mas de dos en la misma fecha/aerop de salida y fecha/aerop de llegada
   --
   SELECT count(*) INTO v_count FROM vw_datos_reserva
-  WHERE userid=v_nr.userid AND estado='pENDiente'
+  WHERE userid=v_nr.userid AND estado='pendiente'
     AND (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
                                 =
         (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst);
@@ -465,7 +469,7 @@ BEGIN
   -- Verifica solapamiento
   --
   SELECT count(*) INTO v_count FROM vw_datos_reserva
-  WHERE userid=v_nr.userid AND estado='pENDiente'
+  WHERE userid=v_nr.userid AND estado='pendiente'
     AND (fecha_sale,fecha_llega,aeropuerto_ori,aeropuerto_dst) 
                                 !=
         (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst)
