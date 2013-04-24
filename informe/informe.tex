@@ -125,10 +125,42 @@
 \newpage
 \newpage
 
-% \section{Introducci\'on}
-% 
-% (falta)
-% \newpage
+\section{Introducci\'on}
+ 
+ En la actualidad, los clientes de una línea aérea pueden realizar reservas de pasajes desde su casa o el trabajo, si cuentan con un browser y una conexión a Internet.\\
+ 
+Hoy en día todas las líneas aéreas tienen su sitio en la Web donde implementan su WIS (\textit{Web-based Information System}). Estos sistemas tienen en el Back-End un servidor Web que utiliza los servicios de un motor de base de datos.
+En la mayoría de los casos el WIS no sólo permite reservar pasajes sino que además brinda una serie de servicios adicionales al viajero.\\
+\\
+
+En este trabajo se pretende diseñar e implementar una base de datos que brinde soporte al WIS de
+una línea aérea hipotética.\\
+
+Asumiremos que se implementará el WIS desde cero, o sea que no consideraremos los problemas
+vinculados al pasaje y conversión de los datos y estructuras de los legacy system existentes.\\
+
+El sistema deberá dar a los clientes usuarios la posibilidad de abrir una cuenta personal y registrar
+sus datos y preferencias, reservar pasajes y hacer consultas varias.
+\\
+
+Los servicios que deberá brindar el WIS al cliente (en el Front-End) son los
+siguientes:
+\begin{itemize}
+\item Abrir una cuenta con información personal y preferencias de viaje
+\item Consultar disponibilidad de vuelos
+\item Consultar tarifas
+\item Armar un plan de viaje
+\item Reservar pasajes
+\item Consultar reservas efectuadas
+\item Cancelar reservas
+\end{itemize}
+
+ 
+ Además, en el Back-End, deberá permitir a la compañía obtener informes de las operaciones llevadas a
+cabo por sus clientes. Las funcionalidades que deben implementarse se detallan en una sección al final de este informe.
+
+
+ \newpage
 
 \section{Modelos}
 
@@ -294,13 +326,50 @@ FALTA EXPLICACION
 
 \subsection{Reporte de aeropuertos}
 
-FALTA EXPLICACION
+La siguiente consulta realiza un reporte con los aeropuertos (identificados por sus códigos), para cada período \textit{Año/Mes} la cantidad de personas que subieron y que bajaron de ese aeropuerto,
+dentro de un rango de fechas específico.
 
 \begin{verbatim}
  
-NO SE CUAL DE LOS 2 REPORTES ES EL QUE VALE!
+DROP VIEW IF EXISTS vw_paso_por;
+
+--
+-- reservas confirmadas, origen y destino
+--
+CREATE OR REPLACE VIEW vw_paso_por AS
+  SELECT r.codigo_reserva,
+    rv.fecha_viaje+v.hora_despegue salio, v.aeropuerto_ori,
+    rv.fecha_viaje+v.hora_despegue+v.duracion llego, v.aeropuerto_dst
+  FROM reserva r, reserva_viaje rv, vuelo v
+  WHERE rv.codigo_reserva = r.codigo_reserva
+  AND v.numero_vuelo=rv.numero_vuelo
+  AND r.estado='confirmado';
+
+--
+-- Personas que subieron/bajaron de cada aeropuerto
+--
+
+SELECT aeropuerto, to_char(fecha, 'YYYY/Mon') periodo, sum(subio) subieron, sum(bajo) bajaron 
+FROM (
+  SELECT pp.aeropuerto_ori aeropuerto, pp.salio fecha, cantidad_personas subio, 0 bajo
+  FROM vw_paso_por pp,
+     (SELECT codigo_reserva, count(*) cantidad_personas
+      FROM persona_reserva GROUP BY codigo_reserva) pr
+  WHERE pr.codigo_reserva = pp.codigo_reserva
+  UNION ALL
+  SELECT pp.aeropuerto_dst, pp.llego, 0, cantidad_personas
+  FROM vw_paso_por pp,
+     (SELECT codigo_reserva,count(*) cantidad_personas
+      FROM persona_reserva GROUP BY codigo_reserva) pr
+  WHERE pr.codigo_reserva = pp.codigo_reserva
+) datos
+WHERE fecha BETWEEN 'January 1, 2012' AND 'January 31, 2014'
+GROUP BY aeropuerto,to_char(fecha, 'YYYY/Mon')
+ORDER BY sum(subio)+sum(bajo) DESC, sum(subio) DESC;
 
 \end{verbatim}
+
+Hemos utilizado una \textit{vista} por razones de legibilidad, pero puede escribirse una consulta con equivalente sin hacer uso de ella.
 
 
 \subsection{Trigger de reservas}

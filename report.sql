@@ -25,7 +25,7 @@ LEFT JOIN
    WHERE origen = a.codigo_aerop
    GROUP BY a.codigo_aerop, periodo_col1 ) col1
 ON (aeropuerto.codigo_aerop = col1.codaero)
-FULL JOIN
+LEFT JOIN
  ( SELECT a.codigo_aerop AS codaero, periodo_col2 , count(*) AS "count"
   FROM  aeropuerto a,
    (SELECT
@@ -44,5 +44,5 @@ FULL JOIN
     ) AS reporte_intermedio
    WHERE destino = a.codigo_aerop
    GROUP BY a.codigo_aerop, periodo_col2 ) col2
-ON ( (col1.codaero = col2.codaero AND (periodo_col1 IS NULL OR periodo_col2 IS NULL) ) OR (col1.codaero = col2.codaero AND periodo_col1 IS NOT NULL AND periodo_col2 IS NOT NULL))
+ON (aeropuerto.codigo_aerop = col2.codaero)
 ORDER BY "Subieron" DESC;
