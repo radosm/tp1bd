@@ -71,6 +71,7 @@ alter table reserva add primary key (codigo_reserva);
 alter table reserva add foreign key (userid) references cuenta;
 alter table reserva add foreign key (codigo_clase) references clase;
 alter table reserva add constraint check_estado check (estado in ('confirmado','pendiente','cancelado'));
+alter table reserva add constraint check_fpago check (forma_de_pago in ('efectivo','tarjeta','debito','transferencia','cheque'));
 
 create table persona (
   tipo_doc integer not null,
