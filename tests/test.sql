@@ -18,28 +18,28 @@ INSERT INTO clase VALUES ('TUR', 'Clase turista');
 -- RESERVA
 --
 
-INSERT INTO reserva VALUES ('R0000001', 'January 5, 2013', 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'TUR');
-INSERT INTO reserva VALUES ('R0000002', 'January 5, 2013', 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'PRI');
-INSERT INTO reserva VALUES ('R0000003', 'January 5, 2013', 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
-INSERT INTO reserva VALUES ('R0000004', 'January 10, 2013', 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
-INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'BIZ');
-INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'PRI');
+INSERT INTO reserva VALUES ('R0000001', 'January 5, 2013', 3, 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'TUR');
+INSERT INTO reserva VALUES ('R0000002', 'January 5, 2013', 3, 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'PRI');
+INSERT INTO reserva VALUES ('R0000003', 'January 5, 2013', 4, 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000004', 'January 10, 2013', 4, 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 1, 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 2, 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'PRI');
 
 -- 
 -- PERSONA
 --
 
-INSERT INTO persona VALUES (1, 37000000, 'Cristian', 'Gomez', 'December 15, 1996', 'Argentino');
-INSERT INTO persona VALUES (1, 38000000, 'Mariela', 'Gomez', 'October 15, 1997', 'Argentina');
-INSERT INTO persona VALUES (1, 19000000, 'Juan', 'Gomez', 'March 15, 1966', 'Argentino');
-INSERT INTO persona VALUES (1, 20000000, 'Ernestina', 'Quintana', 'May 15, 1967', 'Argentina');
+INSERT INTO persona VALUES (1, 37000000, 'Cristian', 'Gomez', 'December 15, 1996', 'AR');
+INSERT INTO persona VALUES (1, 38000000, 'Mariela', 'Gomez', 'October 15, 1997', 'AR');
+INSERT INTO persona VALUES (1, 19000000, 'Juan', 'Gomez', 'March 15, 1966', 'AR');
+INSERT INTO persona VALUES (1, 20000000, 'Ernestina', 'Quintana', 'May 15, 1967', 'AR');
 
-INSERT INTO persona VALUES (1, 28000000, 'Ramos', 'Maria', 'December 27, 1979', 'Argentina');
-INSERT INTO persona VALUES (1, 26000000, 'Andres', 'Diaz', 'October 15, 1975', 'Argentino');
-INSERT INTO persona VALUES (1, 28000001, 'Ramos', 'Maria', 'December 27, 1979', 'Argentina');
-INSERT INTO persona VALUES (1, 26000001, 'Andres', 'Diaz', 'October 15, 1975', 'Argentino');
+INSERT INTO persona VALUES (1, 28000000, 'Ramos', 'Maria', 'December 27, 1979', 'AR');
+INSERT INTO persona VALUES (1, 26000000, 'Andres', 'Diaz', 'October 15, 1975', 'AR');
+INSERT INTO persona VALUES (1, 28000001, 'Ramos', 'Maria', 'December 27, 1979', 'AR');
+INSERT INTO persona VALUES (1, 26000001, 'Andres', 'Diaz', 'October 15, 1975', 'AR');
 
-INSERT INTO persona VALUES (2, 1000000, 'Rosa', 'Garcia', 'June 27, 1940', 'Española');
+INSERT INTO persona VALUES (2, 1000000, 'Rosa', 'Garcia', 'June 27, 1940', 'ES');
 
 
 -- 
@@ -64,19 +64,20 @@ INSERT INTO persona_reserva VALUES ('R0000005', 1, 26000000);
 -- PAIS
 --
 
-INSERT INTO pais VALUES ('01', 'Argentina');
-INSERT INTO pais VALUES ('02', 'Brasil');
-INSERT INTO pais VALUES ('06', 'Colombia');
-INSERT INTO pais VALUES ('13', 'México');
+INSERT INTO pais VALUES ('AR', 'Argentina');
+INSERT INTO pais VALUES ('BR', 'Brasil');
+INSERT INTO pais VALUES ('CO', 'Colombia');
+INSERT INTO pais VALUES ('MX', 'México');
+INSERT INTO pais VALUES ('ES', 'España');
 
 --
 -- AEROPUERTO
 -- 
 
-INSERT INTO aeropuerto VALUES ('001', 'Aeropuerto de Ezeiza', 200.0, 'foo..', '01');
-INSERT INTO aeropuerto VALUES ('002', 'Aeropuerto de São Paulo', 300.0, 'foo..', '02');
-INSERT INTO aeropuerto VALUES ('005', 'Aeropuerto de Bogotá', 240.0, 'foo..', '06');
-INSERT INTO aeropuerto VALUES ('009', 'Aeropuerto de ciudad de México', 240.0, 'foo..', '13');
+INSERT INTO aeropuerto VALUES ('001', 'Aeropuerto de Ezeiza', 200.0, 'foo..', 'AR');
+INSERT INTO aeropuerto VALUES ('002', 'Aeropuerto de São Paulo', 300.0, 'foo..', 'BR');
+INSERT INTO aeropuerto VALUES ('005', 'Aeropuerto de Bogotá', 240.0, 'foo..', 'CO');
+INSERT INTO aeropuerto VALUES ('009', 'Aeropuerto de ciudad de México', 240.0, 'foo..', 'MX');
 
 
 --

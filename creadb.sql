@@ -60,6 +60,7 @@ alter table clase add primary key (codigo_clase);
 create table reserva (
   codigo_reserva char(8) not null,
   fecha date not null,
+  cantidad_personas integer not null,
   estado varchar not null,
   forma_de_pago varchar not null,
   userid varchar(8) not null,
@@ -72,6 +73,7 @@ alter table reserva add foreign key (userid) references cuenta;
 alter table reserva add foreign key (codigo_clase) references clase;
 alter table reserva add constraint check_estado check (estado in ('confirmado','pendiente','cancelado'));
 alter table reserva add constraint check_fpago check (forma_de_pago in ('efectivo','tarjeta','debito','transferencia','cheque'));
+alter table reserva add constraint check_cpers check (cantidad_personas > 0);
 
 create table persona (
   tipo_doc integer not null,
