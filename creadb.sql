@@ -336,7 +336,7 @@ create constraint trigger check_reserva after insert or update on reserva_viaje
 
 --
 -- Cancela reservas más económicas cuando coinciden fecha de salida y llegada y aeropuertos origen y destino
--- y la fecha de salida está dentro de los 7 días desde el parámetro "dia"
+-- y la fecha de salida está dentro de los 7 días desde el parámetro "p_dia"
 --
 create or replace function cancelar_reservas_economicas(p_dia in date) returns void AS 
 $$
