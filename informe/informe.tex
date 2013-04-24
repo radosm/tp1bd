@@ -416,7 +416,7 @@ Por la misma razón que en el código anterior, hemos usado una \textit{vista}.
 
 \subsection{Trigger de reservas}
 
-El siguiente trigger sirve para que un usuario no pueda tener m\'as de una reserva con viajes que se superponen en el tiempo, siempre que falten menos de 7 d\'ias, y que no halla m\'as de dos reservas superpuestas si faltan m\'as de 7 d\'ias.
+El siguiente trigger sirve para que un usuario no pueda tener m\'as de una reserva con viajes que se superponen en el tiempo, siempre que falten menos de 7 d\'ias, y que no haya m\'as de dos reservas superpuestas si faltan m\'as de 7 d\'ias (los aeropuertos de origen y destino deben coincidir en ambas reservas)
 
 \begin{verbatim}
  
@@ -492,6 +492,37 @@ CREATE CONSTRAINT TRIGGER check_reserva AFTER INSERT OR UPDATE ON reserva_viaje
     FOR EACH ROW EXECUTE PROCEDURE check_reserva();
 \end{verbatim}
 
+\subsection{Cancelación de reservas económicas}
+
+Si un usuario está en la situación de tener dos reservas superpuestas en el tiempo, esta funcionalidad (implementada como un \textit{Stored Procedure}) cancela aquella que sea más económica
+cuando la fecha de partida se encuentre dentro de los próximos 7 días.
+
+\begin{verbatim}
+CREATE OR replace FUNCTION cancelar_reservas_economicas(p_dia IN DATE) RETURNS void AS 
+$$
+BEGIN
+  UPDATE reserva SET estado='cancelado' WHERE codigo_reserva IN (
+    SELECT dr.codigo_reserva FROM vw_datos_reserva dr
+    WHERE dr.estado='pendiente'
+      AND dr.fecha_sale >= p_dia
+      AND (dr.fecha_sale - p_dia) < 7
+      AND EXISTS (
+            SELECT * FROM vw_datos_reserva 
+            WHERE estado='pendiente'
+              AND fecha_sale >= p_dia
+              AND (fecha_sale - p_dia) < 7
+              AND codigo_reserva!=dr.codigo_reserva
+              AND (userid,fecha_sale,aeropuerto_ori,fecha_llega,aeropuerto_dst)
+                                          =
+                  (dr.userid,dr.fecha_sale,dr.aeropuerto_ori,dr.fecha_llega,dr.aeropuerto_dst)
+              AND total>=dr.total)
+  );
+
+  RETURN;
+END;
+$$ language plpgsql;
+
+\end{verbatim}
 
 \newpage
 % \section{Conclusiones}
