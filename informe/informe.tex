@@ -113,8 +113,14 @@
 		
 		\maketitle
 	% fin caratula
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+% indice:
 	
-\tableofcontents
+% \tableofcontents
 
 \newpage
 \newpage
@@ -140,9 +146,7 @@
 
 \begin{figure}[h!]
 \centering
-    \includegraphics[angle=90, scale=.35]{DER.png}
-%     \caption{Property profile of the diverse library compared to the compound pool.}
-%     \label{fig:PropProf}
+    \includegraphics[angle=90, scale=.33]{DER.png}
 \end{figure}
 
 
@@ -159,7 +163,7 @@
   \\FK = \{userid\}
   }
 
-  \item \texttt{Reserva(\udash{userid, codigo\_clase}, \underline{codigo\_reserva}, dirección\_entrega, fecha, forma\_de\_pago, estado)
+  \item \texttt{Reserva(\udash{userid, codigo\_clase}, \underline{codigo\_reserva}, dirección\_entrega, fecha, forma\_de\_pago, estado, cantidad\_personas)
   \\ \\PK = CK = \{codigo\_reserva\}
   \\FK = \{userid, codigo\_clase\} 
   }
@@ -168,9 +172,9 @@
   \\ \\PK = CK = FK = \{(tipo\_doc, nro\_doc, codigo\_reserva)\}
   }
 
-  \item \texttt{Persona(\underline{tipo\_doc, nro\_doc}, fecha\_nac, nacionalidad, nombre, apellido)
+  \item \texttt{Persona(\underline{tipo\_doc, nro\_doc}, fecha\_nac, \dotu{codigo\_pais}, nombre, apellido)
   \\ \\PK = CK = \{(tipo\_doc, nro\_doc)\}
-  \\FK = \{\}
+  \\FK = \{codigo\_pais\}
   }
 
   \item \texttt{reserva\_viaje(\underline{orden, \udash{codigo\_reserva, numero\_vuelo, fecha\_viaje}})
@@ -277,7 +281,37 @@
 \newpage
 \section{Funcionalidades}
 
-(falta pegar acá los códigos)
+% hay que reemplazar todos los tabs por espacios para que quede bien
+
+\subsection{Consulta de pasajeros}
+
+FALTA EXPLICACION
+
+\begin{verbatim}
+
+\end{verbatim}
+
+
+\subsection{Reporte de aeropuertos}
+
+FALTA EXPLICACION
+
+\begin{verbatim}
+ 
+NO SE CUAL DE LOS 2 REPORTES ES EL QUE VALE!
+
+\end{verbatim}
+
+
+\subsection{Trigger de reservas}
+
+FALTA EXPLICACION
+
+\begin{verbatim}
+ 
+
+\end{verbatim}
+
 
 \newpage
 % \section{Conclusiones}
