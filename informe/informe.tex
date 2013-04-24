@@ -449,13 +449,16 @@ BEGIN
         (v_nr.fecha_sale ,v_nr.fecha_llega ,v_nr.aeropuerto_ori ,v_nr.aeropuerto_dst);
 
   IF v_count >2 THEN
-    RAISE EXCEPTION 'No se permiten más de dos reservas para la misma fecha/aerop de salida y fecha/aerop de llegada!';
+    RAISE EXCEPTION 'No se permiten más de dos reservas
+	                 para la misma fecha/aerop de salida y fecha/aerop de llegada!';
   END IF;
   
   -- Solo una si estamos a menos de 7 días de la fecha de salida
   IF v_count = 2 AND (v_nr.fecha_sale >= current_date)
   AND (v_nr.fecha_sale - current_date) < 7 days THEN
-    RAISE EXCEPTION 'No se permite más de una reserva para la misma fecha/aerop de salida y fecha/aerop de llegada cuando faltan menos de 7 dias para la fecha de salida!';
+    RAISE EXCEPTION 'No se permite más de una reserva
+                    para la misma fecha/aerop de salida y fecha/aerop de llegada
+                    cuando faltan menos de 7 dias para la fecha de salida!';
   END IF;
 
   -- 
