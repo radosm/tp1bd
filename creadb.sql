@@ -17,9 +17,9 @@ drop table if exists avion;
 drop table if exists modelo_avion;
 drop table if exists telefonos_aeropuerto;
 drop table if exists aeropuerto;
-drop table if exists pais;
 drop table if exists persona_reserva;
 drop table if exists persona;
+drop table if exists pais;
 drop table if exists reserva;
 drop table if exists clase;
 drop table if exists tarjeta;
@@ -75,33 +75,30 @@ alter table reserva add constraint check_estado check (estado in ('confirmado','
 alter table reserva add constraint check_fpago check (forma_de_pago in ('efectivo','tarjeta','debito','transferencia','cheque'));
 alter table reserva add constraint check_cpers check (cantidad_personas > 0);
 
-create table persona (
-  tipo_doc integer not null,
-  nro_doc numeric(20) not null,
-  nombre varchar not null,
-  apellido varchar not null,
-  fecha_nac date not null,
-  nacionalidad varchar not null
-);
-
-alter table persona add primary key (tipo_doc,nro_doc);
-
-create table persona_reserva (
-  codigo_reserva char(8) not null,
-  tipo_doc integer not null,
-  nro_doc numeric(20) not null
-);
-
-alter table persona_reserva add primary key (codigo_reserva,tipo_doc,nro_doc);
-alter table persona_reserva add foreign key (codigo_reserva) references reserva;
-alter table persona_reserva add foreign key (tipo_doc,nro_doc) references persona;
-
 create table pais (
   codigo_pais char(2) not null,
   nombre varchar not null
 );
 
 alter table pais add primary key (codigo_pais);
+
+create table persona (
+  tipo_doc integer not null,
+  nro_doc numeric(20) not null,
+  nombre varchar not null,
+  apellido varchar not null,
+  fecha_nac date not null,
+  codigo_pais char(2) not null
+);
+
+alter table persona add primary key (tipo_doc,nro_doc);
+alter table persona add foreign key (codigo_pais) references pais;
+
+create table persona_reserva (
+  codigo_reserva char(8) not null,
+  tipo_doc integer not null,
+  nro_doc numeric(20) not null
+);
 
 create table aeropuerto (
   codigo_aerop char(3) not null,

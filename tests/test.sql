@@ -26,6 +26,16 @@ INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 1, 'confirmado', 'ta
 INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 2, 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'PRI');
 
 -- 
+-- PAIS
+--
+
+INSERT INTO pais VALUES ('AR', 'Argentina');
+INSERT INTO pais VALUES ('BR', 'Brasil');
+INSERT INTO pais VALUES ('CO', 'Colombia');
+INSERT INTO pais VALUES ('MX', 'México');
+INSERT INTO pais VALUES ('ES', 'España');
+
+-- 
 -- PERSONA
 --
 
@@ -59,16 +69,6 @@ INSERT INTO persona_reserva VALUES ('R0000004', 1, 26000001);
 INSERT INTO persona_reserva VALUES ('R0000005', 2, 1000000);
 INSERT INTO persona_reserva VALUES ('R0000005', 1, 26000000);
 
-
--- 
--- PAIS
---
-
-INSERT INTO pais VALUES ('AR', 'Argentina');
-INSERT INTO pais VALUES ('BR', 'Brasil');
-INSERT INTO pais VALUES ('CO', 'Colombia');
-INSERT INTO pais VALUES ('MX', 'México');
-INSERT INTO pais VALUES ('ES', 'España');
 
 --
 -- AEROPUERTO
