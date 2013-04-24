@@ -1,6 +1,7 @@
 drop view if exists vw_paso_por;
 drop trigger if exists check_reserva on reserva_viaje;
 drop function if exists check_reserva();
+drop function if exists cancelar_reservas_economicas(date);
 drop view if exists vw_datos_reserva;
 drop table if exists precio;
 drop table if exists asiento;
@@ -249,26 +250,34 @@ alter table precio add foreign key (codigo_clase) references clase;
 -- Para que el código quede más comprensible se usa esta vista
 -- cuya salida es del tipo:
 --
--- userid | codigo_reserva | fecha_sale | fecha_llega | aeropuerto_ori | aeropuerto_dst 
--- -------+----------------+------------+-------------+----------------+----------------
--- C0001  | R0000001       | 2013-01-17 | 2013-01-17  | 001            | 002
--- C0001  | R0000002       | 2013-01-17 | 2013-01-17  | 001            | 002
--- C0002  | R0000003       | 2013-01-17 | 2013-01-31  | 001            | 005
--- C0002  | R0000004       | 2013-02-18 | 2013-02-18  | 005            | 009
--- C0002  | R0000005       | 2013-02-15 | 2013-02-15  | 001            | 005
--- C0001  | R0000099       | 2013-01-17 | 2013-01-17  | 001            | 002
+-- userid | codigo_reserva |   estado   | fecha_sale | fecha_llega | aeropuerto_ori | aeropuerto_dst | precio | cantidad | total 
+----------+----------------+------------+------------+-------------+----------------+----------------+--------+----------+-------
+-- C0001  | R0000001       | confirmado | 2013-01-17 | 2013-01-17  | 001            | 002            |    100 |        3 |   300
+-- C0001  | R0000002       | confirmado | 2013-01-17 | 2013-01-17  | 001            | 002            |    200 |        3 |   600
+-- C0002  | R0000003       | confirmado | 2013-01-17 | 2013-01-31  | 001            | 005            |   1800 |        4 |  7200
+-- C0002  | R0000004       | confirmado | 2013-02-18 | 2013-02-18  | 005            | 009            |   1500 |        4 |  6000
+-- C0002  | R0000005       | confirmado | 2013-02-18 | 2013-02-18  | 005            | 009            |   1500 |        1 |  1500
 --
+
 create or replace view vw_datos_reserva as
                select 
                 r.userid , r.codigo_reserva, r.estado, r1.fecha_viaje fecha_sale 
                ,r2.fecha_viaje fecha_llega, v1.aeropuerto_ori, v2.aeropuerto_dst
+               ,t.precio, r.cantidad_personas cantidad, t.precio*r.cantidad_personas total
                from reserva r ,reserva_viaje r1 ,reserva_viaje r2 ,vuelo v1 ,vuelo v2 
+               ,(select r.codigo_reserva,sum(p.tarifa) precio
+                   from reserva r,reserva_viaje rv, precio p
+                  where r.codigo_reserva=rv.codigo_reserva
+                    and p.numero_vuelo=rv.numero_vuelo
+                    and p.codigo_clase=r.codigo_clase
+                 group by r.codigo_reserva) t
                where r.codigo_reserva=r1.codigo_reserva 
                  and r1.codigo_reserva=r2.codigo_reserva
                  and v1.numero_vuelo=r1.numero_vuelo
                  and v2.numero_vuelo=r2.numero_vuelo
                  and (r1.codigo_reserva,r1.orden,r2.orden) in (select codigo_reserva,min(orden),max(orden)
-                                                               from reserva_viaje group by codigo_reserva);
+                                                               from reserva_viaje group by codigo_reserva)
+                 and t.codigo_reserva=r.codigo_reserva;
 
 
 create function check_reserva() returns trigger as
@@ -323,3 +332,34 @@ $$ language plpgsql;
 create constraint trigger check_reserva after insert or update on reserva_viaje
     deferrable initially deferred
     for each row execute procedure check_reserva();
+
+
+--
+-- Cancela reservas más económicas cuando coinciden fecha de salida y llegada y aeropuertos origen y destino
+-- y la fecha de salida está dentro de los 7 días desde el parámetro "dia"
+--
+create or replace function cancelar_reservas_economicas(p_dia in date) returns void AS 
+$$
+begin
+  update reserva set estado='cancelado' where codigo_reserva in (
+    select dr.codigo_reserva from vw_datos_reserva dr
+    where dr.estado='pendiente'
+      and dr.fecha_sale >= p_dia
+      and (dr.fecha_sale - p_dia) < 7
+      and exists (
+            select * from vw_datos_reserva 
+            where estado='pendiente'
+              and fecha_sale >= p_dia
+              and (fecha_sale - p_dia) < 7
+              and codigo_reserva!=dr.codigo_reserva
+              and (userid,fecha_sale,aeropuerto_ori,fecha_llega,aeropuerto_dst)
+                                          =
+                  (dr.userid,dr.fecha_sale,dr.aeropuerto_ori,dr.fecha_llega,dr.aeropuerto_dst)
+              and total>=dr.total)
+  );
+
+  return;
+end;
+$$ language plpgsql;
+
+

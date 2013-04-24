@@ -21,8 +21,8 @@ INSERT INTO clase VALUES ('TUR', 'Clase turista');
 INSERT INTO reserva VALUES ('R0000001', 'January 5, 2013', 3, 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'TUR');
 INSERT INTO reserva VALUES ('R0000002', 'January 5, 2013', 3, 'confirmado', 'tarjeta', 'C0001', 'calle 13', 'PRI');
 INSERT INTO reserva VALUES ('R0000003', 'January 5, 2013', 4, 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
-INSERT INTO reserva VALUES ('R0000004', 'January 10, 2013', 4, 'confirmado', 'efectivo', 'C0002', 'calle 13', 'BIZ');
-INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 1, 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000004', 'January 10, 2013', 4, 'pendiente', 'efectivo', 'C0002', 'calle 13', 'BIZ');
+INSERT INTO reserva VALUES ('R0000005', 'January 15, 2013', 1, 'pendiente', 'tarjeta', 'C0002', 'calle 13', 'BIZ');
 INSERT INTO reserva VALUES ('R0000006', 'February 3, 2013', 2, 'confirmado', 'tarjeta', 'C0002', 'calle 13', 'PRI');
 
 -- 
