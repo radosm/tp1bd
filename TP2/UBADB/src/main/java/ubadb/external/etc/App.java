@@ -1,10 +1,10 @@
 package ubadb.external.etc;
 
 import org.springframework.context.ApplicationContext;
-
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ubadb.core.Database;
+
 @SuppressWarnings("unused")
 public class App 
 {

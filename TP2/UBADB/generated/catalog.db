@@ -1,0 +1,10 @@
+<ubadb.core.components.catalogManager.Catalog>
+  <tableDescriptors>
+    <ubadb.core.components.catalogManager.TableDescriptor>
+      <tableId internalName="student.table"/>
+      <tableName>Student</tableName>
+      <tablePath>/popo</tablePath>
+      <tablePool>DEFAULT</tablePool>
+    </ubadb.core.components.catalogManager.TableDescriptor>
+  </tableDescriptors>
+</ubadb.core.components.catalogManager.Catalog>
