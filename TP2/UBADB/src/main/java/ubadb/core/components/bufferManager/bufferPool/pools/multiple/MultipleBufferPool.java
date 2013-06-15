@@ -40,12 +40,14 @@ public class MultipleBufferPool implements BufferPool {
 	 * cosa que no hace!
 	 */
 	public BufferFrame getBufferFrame(PageId pageId) throws BufferPoolException {
-		String pool = getPoolByPageId(pageId);
-		if(isPageInPool(pageId)) {
-			return framesMaps.get(pool).get(pageId);
-		} else {
+        BufferFrame bf;
+        try{
+            String pool = getPoolByPageId(pageId);
+			bf = framesMaps.get(pool).get(pageId);
+		}catch(Exception e){
 			throw new BufferPoolException("The requested page is not in the pool");
 		}
+        return bf;
 	}
 	
 	public boolean hasSpace(PageId pageToAddId) {

@@ -79,14 +79,13 @@ public class MultipleBufferPoolTest {
 		assertEquals(expectedFrame, bufferPool.getBufferFrame(PAGE_0.getPageId()));
 	}
 	
-//	Este test no lo puse porque no están bien manejadas las excepciones!
-//	@Test(expected=BufferPoolException.class)
-//	public void testGetUnexistingPage() throws Exception
-//	{
-//		bufferPool.addNewPage(PAGE_0);
-//		
-//		assertNull(bufferPool.getBufferFrame(new PageId(99, new TableId("bbbb"))));
-//	}
+	@Test(expected=BufferPoolException.class)
+	public void testGetUnexistingPage() throws Exception
+	{
+		bufferPool.addNewPage(PAGE_0);
+
+		bufferPool.getBufferFrame(new PageId(99, new TableId("bbbb")));
+	}
 	
 	@Test
 	public void testHasSpaceTrue() throws Exception
