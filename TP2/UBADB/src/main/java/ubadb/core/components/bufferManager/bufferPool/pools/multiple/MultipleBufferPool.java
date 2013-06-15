@@ -11,6 +11,7 @@ import ubadb.core.components.bufferManager.bufferPool.BufferPoolException;
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.PageReplacementStrategy;
 import ubadb.core.components.catalogManager.CatalogManager;
 
+//TODO corregir excepciones en getBufferFrame()
 public class MultipleBufferPool implements BufferPool {
 	private Map<String, Map<PageId, BufferFrame>> framesMaps;	
 	private Map<String, PageReplacementStrategy> pageReplacementStrategies;
@@ -34,6 +35,10 @@ public class MultipleBufferPool implements BufferPool {
 		return framesMaps.get(getPoolByPageId(pageId)).containsKey(pageId);
 	}
 	
+	/**
+	 * Este método debería tirar una excepción si la página no existe,
+	 * cosa que no hace!
+	 */
 	public BufferFrame getBufferFrame(PageId pageId) throws BufferPoolException {
 		String pool = getPoolByPageId(pageId);
 		if(isPageInPool(pageId)) {
@@ -66,7 +71,7 @@ public class MultipleBufferPool implements BufferPool {
 	
 	public void removePage(PageId pageId) throws BufferPoolException {
 		if(isPageInPool(pageId)) {
-			framesMaps.remove(pageId);
+			framesMaps.get(getPoolByPageId(pageId)).remove(pageId);
 		} else {
 			throw new BufferPoolException("Cannot remove an unexisting page");
 		}
@@ -81,7 +86,10 @@ public class MultipleBufferPool implements BufferPool {
 		}
 	}
 	
-//	A este le puse la suma de todos. No se si está bien.
+	/**
+	 * A este le puse la suma de todos. No se si está bien!
+	 * 
+	 */
 	public int countPagesInPool() {
 		int suma = 0;
 		for (Map<PageId, BufferFrame> map : framesMaps.values()) {
