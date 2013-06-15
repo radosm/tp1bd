@@ -11,7 +11,6 @@ import ubadb.core.components.bufferManager.bufferPool.BufferPoolException;
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.PageReplacementStrategy;
 import ubadb.core.components.catalogManager.CatalogManager;
 
-@SuppressWarnings("unchecked")
 public class MultipleBufferPool implements BufferPool {
 	private Map<String, Map<PageId, BufferFrame>> framesMaps;	
 	private Map<String, PageReplacementStrategy> pageReplacementStrategies;
@@ -85,7 +84,7 @@ public class MultipleBufferPool implements BufferPool {
 //	A este le puse la suma de todos. No se si está bien.
 	public int countPagesInPool() {
 		int suma = 0;
-		for (Map<PageId, BufferFrame> map : (Iterable<Map<PageId, BufferFrame>>) framesMaps) {
+		for (Map<PageId, BufferFrame> map : framesMaps.values()) {
 			suma += map.size();
 		}
 		return suma;

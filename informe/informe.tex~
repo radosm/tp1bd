@@ -1,0 +1,322 @@
+\documentclass[a4paper,10pt]{article}
+\addtolength{\textwidth}{5.2cm}
+\addtolength{\voffset}{-3cm}
+\addtolength{\hoffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\addtolength{\headheight}{14.0pt}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,activeacute]{babel} 
+\usepackage{paralist}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsfig}
+% \usepackage[T1]{fontenc}
+% \usepackage{cmap}
+% \usepackage{fix-cm}
+% \usepackage{lscape}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{mathrsfs}
+% \usepackage{epstopdf}
+% % \usepackage{algorithmic}
+\usepackage{verbatim}
+% \usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+% \usepackage{graphicx}
+% \usepackage[utf8]{inputenc}
+\usepackage{lscape}
+
+\usepackage{caratulayabs} %Para la caratula
+\usepackage[pdfborder={0,0,0}]{hyperref}
+% \usepackage{ifthen}
+% \usepackage{paralist}
+% \usepackage{ulem}
+
+\newcommand{\dotu}{\bgroup \markoverwith{\lower .4ex\hbox{\_}}\ULon} % para subrallado punteados
+
+\newcommand{\header}[1]{\textsf{#1}}
+\newcommand{\todo}[1]{\frame{\textsf{TODO} #1}}
+
+%Redefino algunos nombres (como uso babel, lo tengo que hacer asi):
+% Donde dice \chapter quiero que aparezca Problema en lugar de Capitulo
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\chaptername}%
+    {Cap\'itulo}%
+}
+
+%Donde dice Indice general, quiero que aparezca Contenidos
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\contentsname}%
+    {Contenidos}%
+}
+
+%Donde dice Indice general, quiero que aparezca Contenidos
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\appendixname}%
+    {Anexo}%
+}
+
+%Donde dice Cuadro, quiero que aparezca Tabla
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\tablename}%
+    {Tabla}%
+}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\input ulem.sty
+
+\usepackage{tikz}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+\newcommand{\uloosdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[loosely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+\newcommand{\udash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udensdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[densely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+
+
+\begin{document}
+
+
+
+	% begin caratula
+		\materia{Bases de datos}
+		\submateria{Primer Cuatrimestre de 2013}
+		\titulo{Trabajo Práctico 1}
+		\subtitulo{Primera parte}
+		\integrante{Mauricio Alfonso}{065/09}{mauricio.alfonso.88@gmail.com}
+		\integrante{Ángel Abregú}{082/09}{angelj\_a@hotmail.com}
+		\integrante{Esteban Capillo}{484/04}{estebancapillo@gmail.com}
+		\integrante{Martín Rados}{185/93}{radosm@gmail.com}
+		
+		\maketitle
+	% fin caratula
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+% indice:
+	
+% \tableofcontents
+
+\newpage
+\newpage
+
+% \section{Introducci\'on}
+% 
+% (falta)
+% \newpage
+
+\section{Modelos}
+
+\subsection{Modelo Entidad-Relaci\'on}
+
+% \begin{landscape}
+% \includegraphics[scale=.35]{DER.png}
+% \end{landscape}
+
+% \begin{figure}[!h]
+% \centering
+% \epsfig{file=./DER.png,width=0.9\linewidth,clip=}
+% % \caption{AnÃ¡lisis de rendimiento de los scans con respecto a la cantidad de puertos scanneados.}
+% \end{figure}
+
+\begin{figure}[h!]
+\centering
+    \includegraphics[angle=90, scale=.33]{DER.png}
+\end{figure}
+
+
+\subsection{Modelo Relacional}
+
+\begin{itemize}
+  \item \texttt{Cuenta(profesión, email, clave, \underline{userid}, apellido, nombre, teléfono, dirección)
+  \\ \\PK = CK = \{userid\}
+  \\FK = \{\} 
+  }
+
+  \item \texttt{Tarjeta(\udash{userid}, \underline{numeroTarjeta}, marca, banco\_emisor, validez, dirección\_facturación)
+  \\ \\PK = CK = \{numeroTarjeta\}
+  \\FK = \{userid\}
+  }
+
+  \item \texttt{Reserva(\udash{userid, codigo\_clase}, \underline{codigo\_reserva}, dirección\_entrega, fecha, forma\_de\_pago, estado, cantidad\_personas)
+  \\ \\PK = CK = \{codigo\_reserva\}
+  \\FK = \{userid, codigo\_clase\} 
+  }
+
+  \item \texttt{persona\_reserva(\underline{\udash{tipo\_doc, nro\_doc, codigo\_reserva}})
+  \\ \\PK = CK = FK = \{(tipo\_doc, nro\_doc, codigo\_reserva)\}
+  \\FALTA VER NACIONALIDAD!!
+  }
+
+  \item \texttt{Persona(\underline{tipo\_doc, nro\_doc}, fecha\_nac, nacionalidad, nombre, apellido)
+  \\ \\PK = CK = \{(tipo\_doc, nro\_doc)\}
+  \\FK = \{\}
+  }
+
+  \item \texttt{reserva\_viaje(\underline{orden, \udash{codigo\_reserva, numero\_vuelo, fecha\_viaje}})
+  \\ \\PK = CK = \{(orden, codigo\_reserva, numero\_vuelo, fecha\_viaje)\}
+  \\FK = \{codigo\_reserva, numero\_vuelo, fecha\_viaje\}}
+
+  \item \texttt{Viaje(\underline{fecha\_viaje, \udash{numero\_vuelo}})
+  \\ \\PK = CK = \{(fecha\_viaje, numero\_vuelo)\}
+  \\FK = \{numero\_vuelo\}}
+
+  \item \texttt{Vuelo(\underline{numero\_vuelo}, hora\_despegue, duración, millas, \udash{origen, destino})
+  \\ \\PK = CK = \{numero\_vuelo\}
+  \\FK = \{origen, destino\}}
+
+  \item \texttt{cronograma(\underline{\udash{día, numero\_vuelo}}, \udash{codigo\_configuracion})
+  \\ \\PK = CK = \{(día, número\_vuelo)\}
+  \\FK = \{día, numero\_vuelo, codigo\_configuracion\}}
+
+  \item \texttt{Dia(\underline{día})
+  \\ \\PK = CK = \{día\}
+  \\FK = \{\}}
+
+  \item \texttt{Configuración(\underline{codigo\_configuración}, descripción)
+  \\ \\PK = CK = \{codigo\_configuración\}
+  \\FK = \{\}}
+
+  \item \texttt{asientos(\underline{\udash{codigo\_configuracion, codigo\_clase}}, cantidad)
+  \\ \\PK = CK = FK = \{(codigo\_configuracion, codigo\_clase)\}}
+
+  \item \texttt{Clase(\underline{codigo\_clase}, descripción)
+  \\ \\CK = \{codigo\_clase, descripcion\}
+  \\PK = \{codigo\_clase\}
+  \\FK = \{\}}
+
+  \item \texttt{Precio(\underline{\udash{numero\_vuelo, codigo\_clase}}, tarifa)
+  \\ \\PK = CK = FK = \{numero\_vuelo, codigo\_clase\}}
+
+  \item \texttt{config\_modelo(\underline{\udash{codigo\_configuracion, codigo\_modelo}})
+  \\ \\PK = CK = FK = \{codigo\_configuracion, codigo\_modelo\}}
+
+  \item \texttt{Modelo\_avion(\underline{codigo\_modelo}, descripcion)
+  \\ \\PK = CK = \{codigo\_modelo\}
+  \\FK = \{\}}
+
+  \item \texttt{Avion(\underline{codigo\_avion}, año\_fabric, \udash{codigo\_modelo, codigo\_pais})
+  \\ \\PK = CK = \{codigo\_avion\}
+  \\FK = \{codigo\_modelo, codigo\_pais\}}
+  
+  \item \texttt{tripulacion(\underline{\udash{fecha\_viaje, numero\_vuelo, codigo\_tripulante}}, \udash{codigo\_avion})
+  \\ \\PK = CK = \{(fecha\_viaje, numero\_vuelo, codigo\_tripulante)\}
+  \\FK = \{fecha\_viaje, numero\_vuelo, codigo\_tripulante, codigo\_avion\}}
+
+  \item \texttt{Tripulante(\underline{codigo\_tripulante}, nombre, apellido, cargo)
+  \\ \\PK = CK = \{codigo\_tripulante\}
+  \\FK = \{\}}
+
+  \item \texttt{Pais(\underline{codigo\_pais}, nombre)
+  \\ \\CK = \{codigo\_pais, nombre\}
+  \\ PK = \{codigo\_pais\}
+  \\FK = \{\}}
+
+  \item \texttt{Aeropuerto(\underline{codigo\_aeropuerto}, información\_transporte, tasa, nombre, \udash{codigo\_pais})
+  \\ \\CK = \{codigo\_aerop, nombre\}
+  \\ PK = \{codigo\_aerop\}
+  \\FK = \{codigo\_pais\}}
+
+  \item \texttt{Telefonos\_aeropuerto(\underline{numero, \udash{codigo\_aeropuerto}})
+  \\ \\PK = CK = \{(numero, codigo\_aeropuerto\}
+  \\FK = \{codigo\_aeropuerto\}}
+
+\end{itemize}
+
+\newpage
+
+\subsection{Supuestos asumidos}
+
+\begin{itemize}
+ \item Denominamos \texttt{Vuelo} a un vuelo que se hace frecuentemente entre dos aeropuertos. \texttt{Viaje} es una instancia particular de \texttt{Vuelo}, es decir, un vuelo en una fecha en particular. Si una persona hace un viaje con escalas, entonces decimos que en realidad hace varios viajes, uno por cada tramo. Dichos viajes son agrupados en una \texttt{Reserva}, y el orden de los tramos est\'a indicado por el atributo \texttt{orden} de la relaci\'on \texttt{reserva\_viaje}.
+
+  \item Una \texttt{Reserva} es para varias personas, pero asumimos que viajan en la misma clase. De la misma manera asumimos que todos los vuelos de una reserva son en la misma clase.
+
+  \item Un \texttt{Vuelo} se hace varias al menos una vez por semana, siempre en el mismo horario. Asumimos que el mismo vuelo no se puede realizar dos veces en un mismo día. Denominamos \texttt{Configuración} a una manera de organizar los asientos por clase en un avión. Un vuelo puede tener varias configuraciones diferentes dependiendo del día de semana.
+    
+  \item El usuario que realiza una reserva debe garantizar que la combinación de viajes sea realizable según el \underline{\textbf{orden}} dado. Es decir, asumimos que para todo viaje $v$ de una misma reserva, el siguiente en orden (si existe) tiene que partir tiempo después que $v$ llegue, y además, el aeropuerto de origen ser el aeropuerto de llegada de $v$.
+  
+\end{itemize}
+
+\subsection{Restricciones adicionales}
+
+\begin{itemize}
+
+  \item Las fechas de los viajes son tales que el vuelo correspondiente tenga un cronograma en ese día.
+
+  \item Para todo viaje y toda clase, la cantidad de asientos del vuelo correspondiente en esa clase en el día de semana correspondiente al de la fecha del viaje, debe ser mayor o igual a la cantidad de personas con reservas de ese viaje en esa clase.
+
+  \item Las clases de todas las configuraciones de un vuelo deben ser las mismas que las clases de los precios de ese vuelo.
+
+  \item El avión de un viaje tiene un modelo que cumple con la configuración de asientos correspondiente al vuelo y día de ese viaje.
+
+  \item El aeropuerto de origen de un vuelo es distinto del aeropuerto de destino.
+
+\end{itemize}
+
+\newpage
+\section{Funcionalidades}
+
+% hay que reemplazar todos los tabs por espacios para que quede bien
+
+\subsection{Consulta de pasajeros}
+
+FALTA EXPLICACION
+
+\begin{verbatim}
+
+\end{verbatim}
+
+
+\subsection{Reporte de aeropuertos}
+
+FALTA EXPLICACION
+
+\begin{verbatim}
+ 
+NO SE CUAL DE LOS 2 REPORTES ES EL QUE VALE!
+
+\end{verbatim}
+
+
+\subsection{Trigger de reservas}
+
+FALTA EXPLICACION
+
+\begin{verbatim}
+ 
+
+\end{verbatim}
+
+
+\newpage
+% \section{Conclusiones}
+% 
+% (falta)
+
+\end{document}

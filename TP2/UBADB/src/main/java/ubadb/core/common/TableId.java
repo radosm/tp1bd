@@ -7,6 +7,8 @@ public class TableId
 {
 	private String internalName;	//internal name, not necessarily the same one defined by the user
 
+	public TableId() {}
+	
 	public TableId(String internalName) 
 	{
 		this.internalName = internalName;

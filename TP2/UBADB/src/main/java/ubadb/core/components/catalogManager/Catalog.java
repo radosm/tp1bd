@@ -13,6 +13,8 @@ public class Catalog
 {
 	private List<TableDescriptor> tableDescriptors;
 	
+	public Catalog() {}
+	
 	public Catalog(List<TableDescriptor> tableDescriptors)
 	{
 		this.tableDescriptors=tableDescriptors;

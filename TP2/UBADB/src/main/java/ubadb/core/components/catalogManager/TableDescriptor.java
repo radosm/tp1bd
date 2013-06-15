@@ -9,6 +9,8 @@ public class TableDescriptor
 	private String tablePath;
 	private String tablePool;
 
+	public TableDescriptor() {}
+	
 	public TableDescriptor(TableId tableId, String tableName, String tablePath, String tablePool)
 	{
 		this.tableId = tableId;
