@@ -24,7 +24,7 @@ public class CatalogManagerImpl implements CatalogManager
 	{
 		XstreamXmlUtil xmlUtil = new XstreamXmlUtil(new XStream());
 		try {
-			this.catalog=(Catalog)xmlUtil.fromXml(this.catalogFilePath);
+			this.catalog= (Catalog)xmlUtil.fromXml(this.catalogFilePath);
 		} catch (XmlUtilException e) {
 			throw new CatalogManagerException("No se pudo leer el catálogo",e);
 		}

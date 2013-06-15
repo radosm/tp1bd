@@ -3,8 +3,8 @@
     <ubadb.core.components.catalogManager.TableDescriptor>
       <tableId internalName="student.table"/>
       <tableName>Student</tableName>
-      <tablePath>/popo</tablePath>
-      <tablePool>DEFAULT</tablePool>
+      <tablePath>/example/path</tablePath>
+      <tablePool>POOL_1</tablePool>
     </ubadb.core.components.catalogManager.TableDescriptor>
   </tableDescriptors>
 </ubadb.core.components.catalogManager.Catalog>
