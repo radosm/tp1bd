@@ -35,7 +35,7 @@ public class CatalogGenerator
 		//Table Student
 		tableId = new TableId("student.table");
 		tableName = "Student";
-		tablePath = "/popo";
+		tablePath = "/ruta";
 		tablePool = "DEFAULT";
 		list.add(new TableDescriptor(tableId,tableName,tablePath,tablePool));
     	
