@@ -11,7 +11,6 @@ import ubadb.core.components.bufferManager.bufferPool.BufferPoolException;
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.PageReplacementStrategy;
 import ubadb.core.components.catalogManager.CatalogManager;
 
-//TODO corregir excepciones en getBufferFrame()
 public class MultipleBufferPool implements BufferPool {
 	private Map<String, Map<PageId, BufferFrame>> framesMaps;	
 	private Map<String, PageReplacementStrategy> pageReplacementStrategies;
@@ -26,8 +25,8 @@ public class MultipleBufferPool implements BufferPool {
 		this.pageReplacementStrategies = pageReplacementStrategies;
 		this.framesMaps = new HashMap<String, Map<PageId, BufferFrame>>();
 		this.catalogManager = catalogManager;
-		for (String key : maxBufferPoolSizes.keySet()) {
-			this.framesMaps.put(key, new HashMap<PageId, BufferFrame>(maxBufferPoolSizes.get(key)));
+		for (Map.Entry<String, Integer> entry : maxBufferPoolSizes.entrySet()) {
+			this.framesMaps.put(entry.getKey(), new HashMap<PageId, BufferFrame>(entry.getValue()));
 		}
 	}
 	
@@ -35,10 +34,6 @@ public class MultipleBufferPool implements BufferPool {
 		return framesMaps.get(getPoolByPageId(pageId)).containsKey(pageId);
 	}
 	
-	/**
-	 * Este método debería tirar una excepción si la página no existe,
-	 * cosa que no hace!
-	 */
 	public BufferFrame getBufferFrame(PageId pageId) throws BufferPoolException {
         BufferFrame bf;
         try{
