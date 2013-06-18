@@ -11,6 +11,8 @@ import ubadb.core.components.bufferManager.bufferPool.pools.multiple.MultipleBuf
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.PageReplacementStrategy;
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.fifo.FIFOReplacementStrategy;
 import ubadb.core.components.catalogManager.CatalogManager;
+import ubadb.core.components.catalogManager.CatalogManagerException;
+import ubadb.core.components.catalogManager.CatalogManagerImpl;
 import ubadb.core.components.diskManager.DiskManager;
 import ubadb.external.bufferManagement.etc.BufferManagementMetrics;
 import ubadb.external.bufferManagement.etc.FaultCounterDiskManagerSpy;
@@ -21,15 +23,17 @@ import ubadb.external.bufferManagement.etc.PageReferenceTraceSerializer;
 public class MainEvaluatorMB
 {
 	private static final int PAUSE_BETWEEN_REFERENCES	= 0;
-	private static final String[] BUFFERPOOL_NAMES = {"DEFAULT", "KEEP", "RECYCLE"};
+	private static final String[] BUFFERPOOL_NAMES = {"POOL_1", "POOL_2", "RECYCLE"};
 	private static final int[] BUFFERPOOL_SIZES = {100, 100, 100};
+	private static final String CATALOGFILEPATH = "generated/catalog1.db";
+	private static final String FILEPATHPREFIX = "";
 	
 	public static void main(String[] args)
 	{
 		try
 		{
 			PageReplacementStrategy pageReplacementStrategy = new FIFOReplacementStrategy();
-			String traceFileName = "generated/a.trace";
+			String traceFileName = "generated/fileScan-Company.trace";
 			
 			Map<String, PageReplacementStrategy> pageReplacementStrategies = new HashMap<String, PageReplacementStrategy>();
 			for(int i = 0; i < BUFFERPOOL_NAMES.length; i++)
@@ -53,8 +57,14 @@ public class MainEvaluatorMB
 								 Map<String, Integer> maxBufferPoolSizes) throws Exception, InterruptedException, BufferManagerException
 	{
 		FaultCounterDiskManagerSpy faultCounterDiskManagerSpy = new FaultCounterDiskManagerSpy();
-//		CatalogManager catalogManager = new CatalogManagerImpl();
-		CatalogManager catalogManager = null;
+		CatalogManager catalogManager = new CatalogManagerImpl(CATALOGFILEPATH, FILEPATHPREFIX);
+		try {
+			catalogManager.loadCatalog();
+		} catch (CatalogManagerException e1) {
+			// 
+			e1.printStackTrace();
+		}
+		
 		BufferManager bufferManager = createBufferManager(faultCounterDiskManagerSpy, catalogManager, pageReplacementStrategies, maxBufferPoolSizes);
 		PageReferenceTrace trace = getTrace(traceFileName);
 		
