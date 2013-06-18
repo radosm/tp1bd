@@ -79,7 +79,7 @@ public class MultipleBufferPool implements BufferPool {
 			String pool = getPoolByPageId(pageIdToBeAdded);
 			return pageReplacementStrategies.get(pool).findVictim(framesMaps.get(pool).values());
 		} catch(Exception e) {
-			throw new BufferPoolException("Cannot find a victim page for removal",e);
+			throw new BufferPoolException("Cannot find a victim page for removal", e);
 		}
 	}
 	

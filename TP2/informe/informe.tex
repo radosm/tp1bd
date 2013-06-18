@@ -1,0 +1,192 @@
+\documentclass[a4paper,10pt]{article}
+\addtolength{\textwidth}{5.2cm}
+\addtolength{\voffset}{-3cm}
+\addtolength{\hoffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\addtolength{\headheight}{14.0pt}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,activeacute]{babel} 
+\usepackage{paralist}
+\usepackage[pdftex]{graphicx}
+\usepackage{epsfig}
+% \usepackage[T1]{fontenc}
+% \usepackage{cmap}
+% \usepackage{fix-cm}
+% \usepackage{lscape}
+% \usepackage{amsmath}
+% \usepackage{amssymb}
+% \usepackage{mathrsfs}
+% \usepackage{epstopdf}
+% % \usepackage{algorithmic}
+\usepackage{verbatim}
+% \usepackage[lined,boxed,commentsnumbered]{algorithm2e}
+% \usepackage{graphicx}
+% \usepackage[utf8]{inputenc}
+\usepackage{lscape}
+
+\usepackage{caratulayabs} %Para la caratula
+\usepackage[pdfborder={0,0,0}]{hyperref}
+% \usepackage{ifthen}
+% \usepackage{paralist}
+% \usepackage{ulem}
+
+\newcommand{\dotu}{\bgroup \markoverwith{\lower .4ex\hbox{\_}}\ULon} % para subrallado punteados
+
+\newcommand{\header}[1]{\textsf{#1}}
+\newcommand{\todo}[1]{\frame{\textsf{TODO} #1}}
+
+%Redefino algunos nombres (como uso babel, lo tengo que hacer asi):
+% Donde dice \chapter quiero que aparezca Problema en lugar de Capitulo
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\chaptername}%
+    {Cap\'itulo}%
+}
+
+%Donde dice Indice general, quiero que aparezca Contenidos
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\contentsname}%
+    {Contenidos}%
+}
+
+%Donde dice Indice general, quiero que aparezca Contenidos
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\appendixname}%
+    {Anexo}%
+}
+
+%Donde dice Cuadro, quiero que aparezca Tabla
+\addto\captionsspanish{% esto lo necesito porque uso babel
+  \renewcommand{\tablename}%
+    {Tabla}%
+}
+
+\DeclareMathAlphabet{\mathpzc}{OT1}{pzc}{m}{it}
+
+\input ulem.sty
+
+\usepackage{tikz}
+
+\newcommand{\udot}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dotted] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+\newcommand{\uloosdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[loosely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+\newcommand{\udash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+\newcommand{\udensdash}[1]{%
+    \tikz[baseline=(todotted.base)]{
+        \node[inner sep=1pt,outer sep=0pt] (todotted) {#1};
+        \draw[densely dashed] (todotted.south west) -- (todotted.south east);
+    }%
+}%
+
+
+
+
+\begin{document}
+
+
+
+	% begin caratula
+		\materia{Bases de datos}
+		\submateria{Primer Cuatrimestre de 2013}
+		\titulo{Trabajo Práctico 1}
+		\subtitulo{Primera parte}
+		\integrante{Ángel Abregú}{082/09}{angelj\_a@hotmail.com}
+		\integrante{Esteban Capillo}{484/04}{estebancapillo@gmail.com}
+		\integrante{Martín Rados}{185/93}{radosm@gmail.com}
+		\integrante{Mauricio Alfonso}{065/09}{mauricio.alfonso.88@gmail.com}
+		\maketitle
+	% fin caratula
+
+\newpage
+\thispagestyle{empty}
+\mbox{}
+
+% indice:
+	
+ \tableofcontents
+\newpage
+
+\section{Introducci\'on}
+ 
+%  En la actualidad, los clientes de una línea aérea pueden realizar reservas de pasajes desde su casa o el trabajo, si cuentan con un browser y una conexión a Internet.\\
+%  
+% Hoy en día todas las líneas aéreas tienen su sitio en la Web donde implementan su WIS (\textit{Web-based Information System}). Estos sistemas tienen en el Back-End un servidor Web que utiliza los servicios de un motor de base de datos.
+% En la mayoría de los casos el WIS no sólo permite reservar pasajes sino que además brinda una serie de servicios adicionales al viajero.\\
+% \\
+% 
+% En este trabajo se pretende diseñar e implementar una base de datos que brinde soporte al WIS de
+% una línea aérea hipotética.\\
+% 
+% Asumiremos que se implementará el WIS desde cero, o sea que no consideraremos los problemas
+% vinculados al pasaje y conversión de los datos y estructuras de los legacy system existentes.\\
+% 
+% El sistema deberá dar a los clientes usuarios la posibilidad de abrir una cuenta personal y registrar
+% sus datos y preferencias, reservar pasajes y hacer consultas varias.
+% \\
+% 
+% Los servicios que deberá brindar el WIS al cliente (en el Front-End) son los
+% siguientes:
+% \begin{itemize}
+% \item Abrir una cuenta con información personal y preferencias de viaje
+% \item Consultar disponibilidad de vuelos
+% \item Consultar tarifas
+% \item Armar un plan de viaje
+% \item Reservar pasajes
+% \item Consultar reservas efectuadas
+% \item Cancelar reservas
+% \end{itemize}
+% 
+%  
+%  Además, en el Back-End, deberá permitir a la compañía obtener informes de las operaciones llevadas a
+% cabo por sus clientes. Las funcionalidades que deben implementarse se detallan en una sección al final de este informe.
+
+
+ \newpage
+
+\section{Manejo de buffers en Oracle}
+
+Oracle dispone de 3 buffer caché diferentes, DEFAULT, KEEP y RECYCLE. Todos ellos funcionan con el algoritmo LRU, determinando el aging de las páginas con el algoritmo Touch Count.
+
+El buffer caché DEFAULT siempre existe, y la mayoría de los sistemas funcionan adecuadamente utilizando sólo ese. Sin embargo, hay dos situaciones que pueden aparecer en algunos sistemas y hacen necesaria la configuración de KEEP y/o RECYCLE buffer caché para tratar de reducir la cantidad de accesos a disco, que es el objetivo principal del buffer caché.
+
+En primer lugar, muchas veces es necesario, por cuestiones de performance mantener un conjunto de objetos siempre en memoria ya que son muy frecuentemente accedidos, en este caso se puede recurrir al KEEP caché, dimensionándolo de manera tal de obtener un alto hit ratio, no necesariamente 100\%, ya que pretender esto podría significar estar desperdiciando memoria que sería útil para los otros pools. Un primer  dimensionamiento puede realizarse observando cuántos bloques utiliza el objeto en disco (dato calculado con las estadísticas) y/o analizando en momento de ejecución cuántos bloques de esos objetos hay en memoria. Luego de dimensionado el KEEP caché e indicado cuáles objetos deben ir a él, hay que ir analizando el hit ratio y aumentar o disminuir el tamaño hasta conseguir el hit ratio deseado.
+
+Otra problemática es la de segmentos grandes ($>$10\% del tamaño del caché DEFAULT) que son accedidos en forma aleatoria o que se escanea en forma completa raramente (por ejemplo un proceso batch que se ejecuta una vez por semana). Esta forma de acceso hace  improbable que los bloques leídos en memoria (y que posiblemente hicieron que otros bloques de otros objetos hayan sido removidos del caché) vuelvan a ser utilizados. Para minimizar el impacto, para estos objetos se puede utilizar el RECYCLE caché, ya que no interesa que sean mantenidos en memoria los bloques de los mismos. Generalmente el tamaño del RECYCLE caché es menor al del DEFAULT caché, pero teniendo cuidado de que no sea tan chico que los bloques leidos sean eliminados antes de ser utilizados
+
+Para indicar a qué buffer caché va un objeto en particular se usa el comando ALTER (ALTER TABLE, ALTER INDEX, etc). Si se cambia el caché de un objeto que ya tiene bloques en memoria, esos bloques quedan en el cache anterior, sólo pasan al nuevo buffer caché cuando son leídos nuevamente de disco.
+
+Los tamaños de los caché están dados por los parámetros de inicialización DB\_BUFFER\_CACHE,\\DB\_KEEP\_CACHE\_SIZE y DB\_RECYCLE\_CACHE\_SIZE.
+
+
+\newpage
+
+\section{Catalog Manager}
+
+\section{Múltiples Buffer Pools}
+Implementamos la clase \texttt{MultipleBufferPool} para que el usuario pueda elegir entre varios buffers en vez de tener acceso a uno solo. Para esto fue necesario modificar el catálogo y el descriptor de tabla para que se indique por cada tabla a que pool pertenece. \texttt{MultipleBufferPool} recibe en su constructor 3 parámetros: el primero es un mapa (diccionario) que por cada pool (representado con un \texttt{String}) tiene un entero indicando su tamaño máximo; el segundo es también un mapa que por cada pool tiene una estrategia de reemplazo de páginas (\texttt{PageReplacementStrategy}); por último necesita una referencia al \texttt{CatalogManager}.\\
+
+Los métodos para acceder a las páginas en el \texttt{MultipleBufferPool} son los mismos de la interfaz \texttt{BufferPool}. Para obtener el buffer correspondiente a partir de un \texttt{Page} o \texttt{PageId}, el \texttt{MultipleBufferPool} le pregunta al \texttt{CatalogManager} el descriptor de tabla de dicha página, y con ése descriptor obtiene el \texttt{String} que representa al pool correspondiente.\\
+
+Además fueron implementados tests de unidad en la clase \texttt{MultipleBufferPoolTest} para verificar su correcto funcionamiento. Para dichos tests usamos un catálogo con dos pools llamados \texttt{POOL\_1} y \texttt{POOL\_2} y 4 páginas para cada uno. Se prueban cada uno de los métodos públicos, en 14 tests de diferentes situaciones.
+
+\newpage
+
+\section{Evaluación de Múltiples Buffer Pools}
+
+\end{document}
