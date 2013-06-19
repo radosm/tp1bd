@@ -1,5 +1,4 @@
 *.class
 TP2/UBADB/generated/
+TP2/UBADB/generated_seq/
 TP2/.metadata
-generated/
-generated_seq/
