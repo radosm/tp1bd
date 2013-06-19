@@ -123,38 +123,12 @@
 \newpage
 
 \section{Introducci\'on}
- 
-%  En la actualidad, los clientes de una línea aérea pueden realizar reservas de pasajes desde su casa o el trabajo, si cuentan con un browser y una conexión a Internet.\\
-%  
-% Hoy en día todas las líneas aéreas tienen su sitio en la Web donde implementan su WIS (\textit{Web-based Information System}). Estos sistemas tienen en el Back-End un servidor Web que utiliza los servicios de un motor de base de datos.
-% En la mayoría de los casos el WIS no sólo permite reservar pasajes sino que además brinda una serie de servicios adicionales al viajero.\\
-% \\
-% 
-% En este trabajo se pretende diseñar e implementar una base de datos que brinde soporte al WIS de
-% una línea aérea hipotética.\\
-% 
-% Asumiremos que se implementará el WIS desde cero, o sea que no consideraremos los problemas
-% vinculados al pasaje y conversión de los datos y estructuras de los legacy system existentes.\\
-% 
-% El sistema deberá dar a los clientes usuarios la posibilidad de abrir una cuenta personal y registrar
-% sus datos y preferencias, reservar pasajes y hacer consultas varias.
-% \\
-% 
-% Los servicios que deberá brindar el WIS al cliente (en el Front-End) son los
-% siguientes:
-% \begin{itemize}
-% \item Abrir una cuenta con información personal y preferencias de viaje
-% \item Consultar disponibilidad de vuelos
-% \item Consultar tarifas
-% \item Armar un plan de viaje
-% \item Reservar pasajes
-% \item Consultar reservas efectuadas
-% \item Cancelar reservas
-% \end{itemize}
-% 
-%  
-%  Además, en el Back-End, deberá permitir a la compañía obtener informes de las operaciones llevadas a
-% cabo por sus clientes. Las funcionalidades que deben implementarse se detallan en una sección al final de este informe.
+En éste trabajo práctico tomamos un motor de bases de datos incompleto llamado UBADB e implementamos el \texttt{Buffer Manager} y el uso de múltiples \texttt{Buffer Pools}. El \texttt{Buffer Manager} es un componente de las bases de datos que se encarga de traer páginas del disco y guardarlas en un buffer que funciona como una caché. El \texttt{Buffer Manager} tiene la responsabilidad de borrar páginas de los Buffer si no hay espacio suficiente, esto lo hace con alguna estrategia de reemplazo que puede ser FIFO, LRU, etc.\\
+
+La implementación de múltiples \texttt{Buffer Pools} permite a los usuarios tener más de un buffer, de distintos tamaños y con diferentes estrategias de reemplazo de páginas, e indicar a en qué buffer debe ir cada tabla. De esta manera puede, por ejemplo, mantener siempre en memoria una determinada tabla que se accede constantemente así disminuyendo los accesos a disco, que son el gran cuello de botella de los motores de bases de datos. Para esto el usuario indica con un archivo \texttt{XML} el catálogo de la base de datos, indicando para cada tabla que buffer se desea usar.\\
+
+Además testeamos las clases implementadas usando tests de unidad \texttt{JUnit}, y probamos la eficacia de el uso de múltiples buffer pools.
+
 
 
  \newpage

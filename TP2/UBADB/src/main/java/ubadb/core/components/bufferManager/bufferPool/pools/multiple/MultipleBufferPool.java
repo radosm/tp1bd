@@ -12,11 +12,21 @@ import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.Page
 import ubadb.core.components.catalogManager.CatalogManager;
 
 public class MultipleBufferPool implements BufferPool {
-	private Map<String, Map<PageId, BufferFrame>> framesMaps;	
-	private Map<String, PageReplacementStrategy> pageReplacementStrategies;
-	private Map<String, Integer> maxBufferPoolSizes;
+	private Map<String, Map<PageId, BufferFrame>> framesMaps;				//mapa que por cada pool tiene el buffer
+	private Map<String, PageReplacementStrategy> pageReplacementStrategies;	//mapa con las estrategias de reemplazo
+	private Map<String, Integer> maxBufferPoolSizes;						//mapa con los tamaños de los pools
 	private CatalogManager catalogManager;
 
+	/**
+	 * @param maxBufferPoolSizes Mapa donde las claves son los nombres de los BufferPool y los significados
+	 *	son sus tamaños. 
+	 * @param pageReplacementStrategies Mapa donde las claves son los nombres de los BufferPool y los
+	 * 	significados son sus estrategias de reemplazo.
+	 * @param catalogManager Catalog Manager que se está usando. Se necesita para averiguar los pools de 
+	 * 	cada página.
+	 * 
+	 * @pre maxBufferPoolSizes y pageReplacementStrategies tienen las mismas claves. 
+	 */
 	public MultipleBufferPool(
 			Map<String, Integer> maxBufferPoolSizes, 
 			Map<String, PageReplacementStrategy> pageReplacementStrategies, 
@@ -25,15 +35,27 @@ public class MultipleBufferPool implements BufferPool {
 		this.pageReplacementStrategies = pageReplacementStrategies;
 		this.framesMaps = new HashMap<String, Map<PageId, BufferFrame>>();
 		this.catalogManager = catalogManager;
+//		por cada pool creo un mapa con su tamaño y lo agrego al mapa framesMap
 		for (Map.Entry<String, Integer> entry : maxBufferPoolSizes.entrySet()) {
 			this.framesMaps.put(entry.getKey(), new HashMap<PageId, BufferFrame>(entry.getValue()));
 		}
 	}
 	
+	/**
+	 * @param pageId id de la página. 
+	 * @return true si pageId está en algún pool. 
+	 */
 	public boolean isPageInPool(PageId pageId) {
 		return framesMaps.get(getPoolByPageId(pageId)).containsKey(pageId);
 	}
 	
+	/**
+	 * Si la página está en su pool, la retorna.
+	 * 
+	 * @param pageId id de la página.
+	 * @return BufferFrame con la página.
+	 * @throws BufferPoolException si la página no está en su pool.
+	 */
 	public BufferFrame getBufferFrame(PageId pageId) throws BufferPoolException {
         BufferFrame bf;
         try{
@@ -45,11 +67,22 @@ public class MultipleBufferPool implements BufferPool {
         return bf;
 	}
 	
+	/**
+	 * @param pageToAddId id de la página
+	 * @return true si hay espacio para agregar la página a su pool.
+	 */
 	public boolean hasSpace(PageId pageToAddId) {
 		String pool = getPoolByPageId(pageToAddId);
 		return ((Map<PageId, BufferFrame>) framesMaps.get(pool)).size() < maxBufferPoolSizes.get(pool);
 	}
 	
+	/**
+	 * Agrega la página al pool. 
+	 * 
+	 * @param page la página a agregar.
+	 * @return BufferFrame de la página agregada.
+	 * @throws BufferPoolException si no hay espacio en el pool o si la página ya estaba en el pool.
+	 */
 	public BufferFrame addNewPage(Page page) throws BufferPoolException	{
 		String pool = getPoolByPage(page);
 		
@@ -66,6 +99,12 @@ public class MultipleBufferPool implements BufferPool {
 		}
 	}
 	
+	/**
+	 * Borra la página del pool.
+	 * 
+	 * @param pageId id de la página.
+	 * @throws BufferPoolException si la página no está en el pool.
+	 */
 	public void removePage(PageId pageId) throws BufferPoolException {
 		if(isPageInPool(pageId)) {
 			framesMaps.get(getPoolByPageId(pageId)).remove(pageId);
@@ -74,6 +113,13 @@ public class MultipleBufferPool implements BufferPool {
 		}
 	}
 	
+	/**
+	 * Encuentra un BufferFrame víctima para liberar según la estrategia de reemplazo que use el pool.
+	 * 
+	 * @param pageIdToBeAdded id de la página a agregar.
+	 * @return BufferFrame víctima.
+	 * @throws BufferPoolException si no se pudo encontrar ninguna víctima. 
+	 */
 	public BufferFrame findVictim(PageId pageIdToBeAdded) throws BufferPoolException {
 		try	{
 			String pool = getPoolByPageId(pageIdToBeAdded);
@@ -84,7 +130,7 @@ public class MultipleBufferPool implements BufferPool {
 	}
 	
 	/**
-	 * A este le puse la suma de todos. No se si está bien!
+	 * @return la suma de los tamaños de todos los bufferPools.
 	 * 
 	 */
 	public int countPagesInPool() {
@@ -95,10 +141,22 @@ public class MultipleBufferPool implements BufferPool {
 		return suma;
 	}
 	
+	/**
+	 * Retorna El pool de la página indicada.
+	 * 
+	 * @param pageId id de la página.
+	 * @return String con el nombre del pool.
+	 */
 	private String getPoolByPageId(PageId pageId) {
 		return catalogManager.getTableDescriptorByTableId(pageId.getTableId()).getTablePool();
 	}
 
+	/**
+	 * Retorna El pool de la página indicada.
+	 * 
+	 * @param page página cuyo pool se desea averiguar.
+	 * @return String con el nombre del pool.
+	 */
 	private String getPoolByPage(Page page) {
 		return catalogManager.getTableDescriptorByTableId(page.getPageId().getTableId()).getTablePool();
 	}
