@@ -152,6 +152,17 @@ Los tamaños de los caché están dados por los parámetros de inicialización D
 
 \section{Catalog Manager}
 
+La clase \texttt{CatalogManagerImpl}, que implementa la interfaz \texttt{CatalogManager}, se encarga del manejo del catálogo de la base de datos, que se encuentra almacenado físicamente en el disco como archivo XML. El contructor toma dos parámetros, ambos \texttt{String}: el primero es la ruta relativa del catálogo y el segundo, la ruta absoluta de un directorio (\textit{prefijo}). Si el prefijo es una cadena vacía, se usará
+el directorio de trabajo del programa que está corriendo.\\
+
+El método \texttt{loadCatalog} se encarga de cargar el catálogo desde la ruta especificada. Por medio del método \texttt{XstreamXmlUtil.fromXml} se lee el archivo XML, se interpreta el contenido y se instancia un objeto de clase \texttt{Catalog}.\\
+
+El segundo método, accede al catálogo cargado y permite obtener el descriptor de la tabla con el \texttt{TableId} indicado. Recordemos que un descriptor de tabla (representado por la clase \texttt{TableDescriptor}) contiene el \texttt{TableId}, el nombre de la tabla visible al usuario, la ubicación física de la tabla en el disco y el nombre el buffer pool asociado a dicha tabla.\\
+
+El test de unidad correspondiente es \texttt{CatalogManagerImplTest}. Se verifica que el catálogo cargado sea el mismo que un catálogo guardado. Primero se crea una instancia de prueba de \texttt{Catalog}, y se guarda en disco por medio del método \texttt{XstreamXmlUtil.toXml}. Luego, se crea una instancia de \texttt{CatalogManagerImpl}, y se procede a cargar el catálogo desde la ruta previamente establecida. Los tests chequean la igualdad entre el primer catálogo y el que fue
+cargado.\\
+
+
 \section{Múltiples Buffer Pools}
 Implementamos la clase \texttt{MultipleBufferPool} para que el usuario pueda elegir entre varios buffers en vez de tener acceso a uno solo. Para esto fue necesario modificar el catálogo y el descriptor de tabla para que se indique por cada tabla a que pool pertenece. \texttt{MultipleBufferPool} recibe en su constructor 3 parámetros: el primero es un mapa (diccionario) que por cada pool (representado con un \texttt{String}) tiene un entero indicando su tamaño máximo; el segundo es también un mapa que por cada pool tiene una estrategia de reemplazo de páginas (\texttt{PageReplacementStrategy}); por último necesita una referencia al \texttt{CatalogManager}.\\
 
