@@ -18,44 +18,23 @@ public class MainTraceGenerator
 {
 	public static void main(String[] args) throws Exception
 	{
-//		basicDataSet();
-		complexDataSet();
+		basicDataSet();
+		//complexDataSet();
 	}
 	
 	private static void basicDataSet() throws Exception
 	{
 		PageReferenceTraceSerializer serializer = new PageReferenceTraceSerializer();
 		
-		//File Scan
-		String fileNameA1 = "generated/fileScan-Company.trace";
-		PageReferenceTrace traceA1 = new FileScanTraceGenerator().generateFileScan(1, "Company", 10);
+		// Filescan de una tabla grande
+		String fileNameA1 = "generated/fileScan-Cursadas.trace";
+		PageReferenceTrace traceA1 = new FileScanTraceGenerator().generateFileScan(1, "Cursadas", 500);
 		serialize(fileNameA1, traceA1, serializer);
 		
-		String fileNameA2 = "generated/fileScan-Product.trace";
-		PageReferenceTrace traceA2 = new FileScanTraceGenerator().generateFileScan(1, "Product", 100);
+		// Lectura aleatoria de una tabla
+		String fileNameA2 = "generated/indexScanUnclusteres-Materias.trace";
+		PageReferenceTrace traceA2 = new IndexScanTraceGenerator().generateIndexScanUnclusteredForASingleLeaf(1,"Materias", 3, 40, 100);
 		serialize(fileNameA2, traceA2, serializer);
-		
-		String fileNameA3 = "generated/fileScan-Sale.trace";
-		PageReferenceTrace traceA3 = new FileScanTraceGenerator().generateFileScan(1,"Sale", 1000);
-		serialize(fileNameA3, traceA3, serializer);
-		
-		//Index Scan Clustered
-		String fileNameB1 = "generated/indexScanClustered-Product.trace";
-		PageReferenceTrace traceB1 = new IndexScanTraceGenerator().generateIndexScanClustered(1,"Product", 3, 10, 50);
-		serialize(fileNameB1, traceB1, serializer);
-		
-		String fileNameB2 = "generated/indexScanClustered-Sale.trace";
-		PageReferenceTrace traceB2 = new IndexScanTraceGenerator().generateIndexScanClustered(1,"Sale", 4, 200, 100);
-		serialize(fileNameB2, traceB2, serializer);
-		
-		//Index Scan Unclustered
-		String fileNameC1 = "generated/indexScanUnclustered-Product.trace";
-		PageReferenceTrace traceC1 = new IndexScanTraceGenerator().generateIndexScanUnclusteredForASingleLeaf(1,"Product", 3, 40, 100);
-		serialize(fileNameC1, traceC1, serializer);
-		
-		String fileNameC2 = "generated/indexScanUnclustered-Sale.trace";
-		PageReferenceTrace traceC2 = new IndexScanTraceGenerator().generateIndexScanUnclusteredForASingleLeaf(1,"Sale", 4, 250, 1000);
-		serialize(fileNameC2, traceC2, serializer);
 		
 		//BNLJ
 		String fileNameD1 = "generated/BNLJ-ProductXSale-group_50.trace";
