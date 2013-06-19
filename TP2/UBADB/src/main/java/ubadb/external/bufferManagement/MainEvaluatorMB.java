@@ -35,8 +35,10 @@ public class MainEvaluatorMB
 	{
 		
 		PageReplacementStrategy pageReplacementStrategy = new FIFOReplacementStrategy();
-		String traceFileName = "generated/fileScan-Cursadas.trace";
-		//String traceFileName = "generated/indexScanUnclusteres-Materias.trace";
+		//String traceFileName = "generated/fileScan-Cursadas.trace";
+		//String traceFileName = "generated/fileScan-Materias.trace";
+		String traceFileName = "generated/koko.trace";
+		//String traceFileName2 = "generated/indexScanUnclustered-Materias.trace";
 		
 		Map<String, PageReplacementStrategy> pageReplacementStrategies = new HashMap<String, PageReplacementStrategy>();
 		for(int i = 0; i < BUFFERPOOL_NAMES.length; i++)
@@ -75,13 +77,7 @@ public class MainEvaluatorMB
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		try {
-			evaluate(traceFileName, bufferManager);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+				
 		BufferManagementMetrics metrics = new BufferManagementMetrics(trace, faultCounterDiskManagerSpy.getFaultsCount());
 		metrics.showSummary();
 		
