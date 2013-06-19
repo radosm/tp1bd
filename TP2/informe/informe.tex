@@ -119,7 +119,7 @@
 
 % indice:
 	
- \tableofcontents
+%  \tableofcontents
 \newpage
 
 \section{Introducci\'on}
@@ -173,5 +173,24 @@ Además fueron implementados tests de unidad en la clase \texttt{MultipleBufferP
 \newpage
 
 \section{Evaluación de Múltiples Buffer Pools}
+
+Para evaluar la eficacia de los m\'ultiples Buffer Pools generamos trazas que usan tablas para diferentes pools y comparamos el hit rate del acceso a buffer usando m\'ultiples Buffer Pools con el de usar un Buffer Pool simple. Para eso primero generamos trazas individuales sobre un cat\'alogo con dos tablas llamadas \texttt{Materias} y \texttt{Cursada}. \texttt{Materias} es una tabla chica que se va a acceder mucho, mientras que \texttt{Cursada} es una tabla m\'as grande. \\
+
+En la clase \texttt{SeqMainTraceGenerator} generamos una traza que accede primero a todas las p\'aginas de \texttt{Materias}, luego a todas las de \texttt{Cursada} y por \'ultimo accedemos nuevamente a todas las de \texttt{Materias}. Dicha traza se genera en el archivo \texttt{generated\_seq/prueba.trace}.
+Con la clase \texttt{MainTraceGenerator}, generamos otra traza similar, pero con accesos aleatorios a ambas tablas, y lo guarda en el archivo \texttt{generated/prueba.trace}.\\
+
+
+Luego probamos en \texttt{MainEvaluator} el hit rate de ambas trazas usando \texttt{SingleBufferPool} y \texttt{MultipleBufferPool}. Para \texttt{MultipleBufferPool} usamos 3 buffers: uno grande llamado \texttt{DEFAULT}, y dos peque\~nos llamados \texttt{KEEP} (donde guardamos las p\'aginas de Materias) y \texttt{RECYCLE}. Para \texttt{SingleBufferPool} usamos un \'unico Buffer Pool, de tama\~no igual a las suma de los 3 buffers anteriores, para asegurarnos de tener una comparaci\'on justa.\\
+
+Notamos que se puede mejorar el hit rate al usar \texttt{MultipleBufferPools}, s\'olo si los buffers tienen tama\~no adecuado.\\
+
+
+Los hit rates obtenidos pueden no representar una mejora considerable, pero es importante mencionar que corresponden a todos los accesos, es decir a todos los pools. Seguramente el hit rate correspondiente al pool \texttt{KEEP} tiene un porcentaje de hits muy alto, lo cu\'al mejora levemente el hitrate total.
+
+\section{Conclusiones}
+
+Pudimos corroborar que en algunos casos se puede mejorar el hit rate de los Buffer Pools, lo cu\'al significa una reducci\'on en los accesos a disco y una mejora en los tiempos de ejecución del motor de bases de datos. Sin embargo el uso correcto de m\'ultiples buffer pools requiere que el usuario conozca qu\'e p\'aginas se leen con m\'as o menos frecuencia, y si es buena idea o no gastar memoria para p\'aginas que s\'olo usan ciertas p\'aginas. Es decir, el usuario debe tener informaci\'on adicional que no tienen las estrategias de reemplazo de p\'aginas.\\
+
+Es importante mencionar que si no se usan adecuadamente, los Buffer Pools M\'ultiples pueden empeorar la eficacia del motor, en vez de mejorarlo. Por ejemplo notamos en nuestra prueba con dos tablas que si asignamos al buffer que llamamos \texttt{KEEP} un tama\~no menor al de la tabla que queremos guardar, obtenemos un hit rate menor que usando un s\'olo Buffer Pool grande.
 
 \end{document}
