@@ -1,0 +1,17 @@
+<ubadb.core.components.catalogManager.Catalog>
+  <tableDescriptors>
+    <ubadb.core.components.catalogManager.TableDescriptor>
+      <tableId internalName="a"/>
+      <tableName>Student</tableName>
+      <tablePath>/popo</tablePath>
+      <tablePool>POOL_1</tablePool>
+    </ubadb.core.components.catalogManager.TableDescriptor>
+    
+	<ubadb.core.components.catalogManager.TableDescriptor>
+      <tableId internalName="b"/>
+      <tableName>Student2</tableName>
+      <tablePath>/popo2</tablePath>
+      <tablePool>POOL_2</tablePool>
+    </ubadb.core.components.catalogManager.TableDescriptor>
+  </tableDescriptors>
+</ubadb.core.components.catalogManager.Catalog>
