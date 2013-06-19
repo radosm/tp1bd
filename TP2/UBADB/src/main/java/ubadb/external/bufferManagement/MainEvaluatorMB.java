@@ -8,6 +8,7 @@ import ubadb.core.components.bufferManager.BufferManagerException;
 import ubadb.core.components.bufferManager.BufferManagerImpl;
 import ubadb.core.components.bufferManager.bufferPool.BufferPool;
 import ubadb.core.components.bufferManager.bufferPool.pools.multiple.MultipleBufferPool;
+import ubadb.core.components.bufferManager.bufferPool.pools.single.SingleBufferPool;
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.PageReplacementStrategy;
 import ubadb.core.components.bufferManager.bufferPool.replacementStrategies.fifo.FIFOReplacementStrategy;
 import ubadb.core.components.catalogManager.CatalogManager;
@@ -27,7 +28,7 @@ public class MainEvaluatorMB
 {
 	private static final int PAUSE_BETWEEN_REFERENCES	= 0;
 	private static final String[] BUFFERPOOL_NAMES = {"DEFAULT", "KEEP", "RECYCLE"};
-	private static final int[] BUFFERPOOL_SIZES = {5000, 5000, 5000};
+	private static final int[] BUFFERPOOL_SIZES = {200, 100, 50};
 	private static final String CATALOGFILEPATH = "generated/catalog.db";
 	private static final String FILEPATHPREFIX = "";
 	
@@ -35,9 +36,10 @@ public class MainEvaluatorMB
 	{
 		
 		PageReplacementStrategy pageReplacementStrategy = new FIFOReplacementStrategy();
+		PageReplacementStrategy pageReplacementStrategySingle = new FIFOReplacementStrategy();
 		//String traceFileName = "generated/fileScan-Cursadas.trace";
 		//String traceFileName = "generated/fileScan-Materias.trace";
-		String traceFileName = "generated/koko.trace";
+		String traceFileName = "generated/koko1.trace";
 		//String traceFileName2 = "generated/indexScanUnclustered-Materias.trace";
 		
 		Map<String, PageReplacementStrategy> pageReplacementStrategies = new HashMap<String, PageReplacementStrategy>();
@@ -45,8 +47,13 @@ public class MainEvaluatorMB
 			pageReplacementStrategies.put(BUFFERPOOL_NAMES[i], pageReplacementStrategy);
 			
 		Map<String, Integer> maxBufferPoolSizes = new HashMap<String, Integer>();
+		
+		int totalSize=0;
 		for(int i = 0; i < BUFFERPOOL_NAMES.length; i++)
-			maxBufferPoolSizes.put(BUFFERPOOL_NAMES[i], BUFFERPOOL_SIZES[i]);		
+		{	
+			maxBufferPoolSizes.put(BUFFERPOOL_NAMES[i], BUFFERPOOL_SIZES[i]);
+			totalSize+=BUFFERPOOL_SIZES[i];
+		}
 		
 		CatalogManager catalogManager = new CatalogManagerImpl(CATALOGFILEPATH, FILEPATHPREFIX);
 		
@@ -57,13 +64,13 @@ public class MainEvaluatorMB
 			e1.printStackTrace();
 		}
 		
-		//TableId tid=new TableId("Cursadas");
-		//TableDescriptor t=catalogManager.getTableDescriptorByTableId(tid);
-		//System.out.println(t.getTablePool());
-		
 		BufferPool multipleBufferPool = new MultipleBufferPool(maxBufferPoolSizes, pageReplacementStrategies, catalogManager);
 		FaultCounterDiskManagerSpy faultCounterDiskManagerSpy = new FaultCounterDiskManagerSpy();
 		BufferManager bufferManager = new BufferManagerImpl(faultCounterDiskManagerSpy, catalogManager, multipleBufferPool);
+		
+		BufferPool singleBufferPool = new SingleBufferPool(totalSize,pageReplacementStrategySingle);
+		FaultCounterDiskManagerSpy faultCounterDiskManagerSpySingle = new FaultCounterDiskManagerSpy();
+		BufferManager bufferManagerSingle = new BufferManagerImpl(faultCounterDiskManagerSpySingle, catalogManager, singleBufferPool);
 		
 		PageReferenceTrace trace = null;
 		try {
