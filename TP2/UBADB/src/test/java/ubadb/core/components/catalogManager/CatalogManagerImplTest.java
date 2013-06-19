@@ -76,8 +76,9 @@ public class CatalogManagerImplTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		assertTrue((tmpTableDescriptor == null) || (tmpTableDescriptor.getTableId().equals(CatalogManagerImplTest.dummyTableId)));
+		
+		// No puede ser null porque sabemos que existe una tabla con TableId igual a 'dummyTableId'
+		assertNotNull(tmpTableDescriptor);
 	}
 
 }
