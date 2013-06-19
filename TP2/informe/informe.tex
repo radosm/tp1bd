@@ -160,7 +160,7 @@ El método \texttt{loadCatalog} se encarga de cargar el catálogo desde la ruta 
 El segundo método, accede al catálogo cargado y permite obtener el descriptor de la tabla con el \texttt{TableId} indicado. Recordemos que un descriptor de tabla (representado por la clase \texttt{TableDescriptor}) contiene el \texttt{TableId}, el nombre de la tabla visible al usuario, la ubicación física de la tabla en el disco y el nombre el buffer pool asociado a dicha tabla.\\
 
 El test de unidad correspondiente es \texttt{CatalogManagerImplTest}. Se verifica que el catálogo cargado sea el mismo que un catálogo guardado. Primero se crea una instancia de prueba de \texttt{Catalog}, y se guarda en disco por medio del método \texttt{XstreamXmlUtil.toXml}. Luego, se crea una instancia de \texttt{CatalogManagerImpl}, y se procede a cargar el catálogo desde la ruta previamente establecida. Los tests chequean la igualdad entre el primer catálogo y el que fue
-cargado.\\
+cargado; para eso se debe testear que dado un \texttt{TableId}, se devuelva un descriptor de tabla válido (i.e., no \texttt{null}). \\
 
 
 \section{Múltiples Buffer Pools}

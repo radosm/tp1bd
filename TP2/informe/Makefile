@@ -4,10 +4,12 @@ OBJS= ./*
 all: informe
 
 informe: $(SOURCES) $(OBJS)
-	pdflatex $^ > /dev/null
-	pdflatex $^ > /dev/null
+	pdflatex $^
+	pdflatex $^
 	mkdir -p logs
 	mv -f *.out *.aux *.log *.toc 	./logs &>/dev/null
+	clear
+	@echo PDF COMPILADO!
         
 clean:
 	rm -fr logs
