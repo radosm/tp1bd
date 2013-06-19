@@ -51,7 +51,7 @@ public class MultipleBufferPoolTest {
 		maxBufferPoolSizes.put(POOL_2, 4);
 		pageReplacementStrategies.put(POOL_1, new FakePageReplacementStrategy());
 		pageReplacementStrategies.put(POOL_2, new FakePageReplacementStrategy());
-		CatalogManager catalogManager = new CatalogManagerImpl("generated/catalog_test_multiple.db", "");
+		CatalogManager catalogManager = new CatalogManagerImpl("catalog/catalog_test_multiple.db", "");
 		
 		catalogManager.loadCatalog();
 		bufferPool = new MultipleBufferPool(maxBufferPoolSizes,	pageReplacementStrategies, catalogManager);
