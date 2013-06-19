@@ -35,6 +35,7 @@ public class MultipleBufferPool implements BufferPool {
 		this.pageReplacementStrategies = pageReplacementStrategies;
 		this.framesMaps = new HashMap<String, Map<PageId, BufferFrame>>();
 		this.catalogManager = catalogManager;
+		
 //		por cada pool creo un mapa con su tamaño y lo agrego al mapa framesMap
 		for (Map.Entry<String, Integer> entry : maxBufferPoolSizes.entrySet()) {
 			this.framesMaps.put(entry.getKey(), new HashMap<PageId, BufferFrame>(entry.getValue()));
